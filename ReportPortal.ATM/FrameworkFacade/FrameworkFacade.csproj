@@ -13,6 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ConfigurationLibrary\ConfigurationLibrary.csproj" />
     <ProjectReference Include="..\LoggerLibrary\LoggerLibrary.csproj" />
+    <ProjectReference Include="..\ReporterLibrary\ReporterLibrary.csproj" />
+    <ProjectReference Include="..\WebDriverLibrary\WebDriverLibrary.csproj" />
   </ItemGroup>
 
 </Project>

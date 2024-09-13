@@ -3,6 +3,8 @@ using ConfigurationLibrary.Interfaces.Configuration;
 using LoggerLibrary.Interfaces.Loggers;
 using LoggerLibrary.Loggers;
 using Microsoft.Extensions.DependencyInjection;
+using ReporterLibrary.Interfaces.Reporters;
+using ReporterLibrary.Reporters;
 using WebDriverLibrary.Configurations;
 using WebDriverLibrary.Interfaces.Configurations;
 using WebDriverLibrary.Interfaces.WebDrivers;
@@ -24,6 +26,7 @@ public class FrameworkService
             .AddScoped<ILoggerService, SerilogLoggerService>()
             .AddSingleton<IWebDriverConfiguration, WebDriverConfiguration>()
             .AddScoped<IWebDriverService, SeleniumWebDriverService>()
+            .AddSingleton<IReporterService, ExtentReporterService>()
             .BuildServiceProvider();
     }
 
