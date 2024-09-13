@@ -3,6 +3,10 @@ using ConfigurationLibrary.Interfaces.Configuration;
 using LoggerLibrary.Interfaces.Loggers;
 using LoggerLibrary.Loggers;
 using Microsoft.Extensions.DependencyInjection;
+using WebDriverLibrary.Configurations;
+using WebDriverLibrary.Interfaces.Configurations;
+using WebDriverLibrary.Interfaces.WebDrivers;
+using WebDriverLibrary.WebDrivers;
 
 namespace FrameworkFacade.FrameworkStartup;
 
@@ -18,6 +22,8 @@ public class FrameworkService
         _serviceProvider = new ServiceCollection()
             .AddSingleton<IConfigurationService>(new ConfigurationService(filePath, fileName))
             .AddScoped<ILoggerService, SerilogLoggerService>()
+            .AddSingleton<IWebDriverConfiguration, WebDriverConfiguration>()
+            .AddScoped<IWebDriverService, SeleniumWebDriverService>()
             .BuildServiceProvider();
     }
 
