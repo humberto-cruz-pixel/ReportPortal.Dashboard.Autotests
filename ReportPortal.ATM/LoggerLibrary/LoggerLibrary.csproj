@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\Loggers\" />
+    <ProjectReference Include="..\ConfigurationLibrary\ConfigurationLibrary.csproj" />
   </ItemGroup>
 
 </Project>
