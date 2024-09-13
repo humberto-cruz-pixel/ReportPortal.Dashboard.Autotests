@@ -1,5 +1,7 @@
 ﻿using ConfigurationLibrary.Configuration;
 using ConfigurationLibrary.Interfaces.Configuration;
+using LoggerLibrary.Interfaces.Loggers;
+using LoggerLibrary.Loggers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FrameworkFacade.FrameworkStartup;
@@ -15,6 +17,7 @@ public class FrameworkService
 
         _serviceProvider = new ServiceCollection()
             .AddSingleton<IConfigurationService>(new ConfigurationService(filePath, fileName))
+            .AddScoped<ILoggerService, SerilogLoggerService>()
             .BuildServiceProvider();
     }
 
