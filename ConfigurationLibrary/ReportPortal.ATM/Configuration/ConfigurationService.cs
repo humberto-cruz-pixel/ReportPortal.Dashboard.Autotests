@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ConfigurationLibrary.Interfaces.Configuration;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace ConfigurationLibrary.Configuration;
