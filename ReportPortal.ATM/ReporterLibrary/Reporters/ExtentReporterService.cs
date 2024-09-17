@@ -3,7 +3,6 @@ using AventStack.ExtentReports.Reporter;
 using ReporterLibrary.Interfaces.Reporters;
 using System;
 using System.IO;
-using System.Reflection;
 
 namespace ReporterLibrary.Reporters
 {
@@ -12,16 +11,16 @@ namespace ReporterLibrary.Reporters
         private readonly ExtentReports _extenReport;
         private ExtentTest _extentTest;
 
-        public ExtentReporterService()
+        public ExtentReporterService(string path)
         {
-            var path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "results'\'");
+            ArgumentException.ThrowIfNullOrWhiteSpace(path);
 
             Directory.CreateDirectory(path);
 
             _extenReport = new ExtentReports();
-            var _extentHtmlReporter = new ExtentSparkReporter(path);
+            var extentHtmlReporter = new ExtentSparkReporter(path);
 
-            _extenReport.AttachReporter(_extentHtmlReporter);
+            _extenReport.AttachReporter(extentHtmlReporter);
         }
 
         public void CreateTest(string testName)
