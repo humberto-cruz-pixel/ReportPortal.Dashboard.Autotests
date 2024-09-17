@@ -1,6 +1,7 @@
 ﻿using ConfigurationLibrary.Interfaces.Configuration;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
+using System;
 using WebDriverLibrary.Enums;
 using WebDriverLibrary.Interfaces.Configurations;
 

@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
+using System;
 using WebDriverLibrary.Enums;
 using WebDriverLibrary.Interfaces.Configurations;
 using WebDriverLibrary.Interfaces.WebDrivers;

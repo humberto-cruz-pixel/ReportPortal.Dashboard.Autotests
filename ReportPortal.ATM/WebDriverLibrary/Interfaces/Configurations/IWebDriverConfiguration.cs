@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using System;
 using WebDriverLibrary.Enums;
 
 namespace WebDriverLibrary.Interfaces.Configurations

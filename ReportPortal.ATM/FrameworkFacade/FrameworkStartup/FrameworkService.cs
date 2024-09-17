@@ -5,6 +5,7 @@ using LoggerLibrary.Loggers;
 using Microsoft.Extensions.DependencyInjection;
 using ReporterLibrary.Interfaces.Reporters;
 using ReporterLibrary.Reporters;
+using System;
 using WebDriverLibrary.Configurations;
 using WebDriverLibrary.Interfaces.Configurations;
 using WebDriverLibrary.Interfaces.WebDrivers;
