@@ -10,6 +10,9 @@ namespace TestProject.POM.Elements
 
         public Input(IWebDriver webDriver, By locator)
         {
+            ArgumentNullException.ThrowIfNull(webDriver);
+            ArgumentNullException.ThrowIfNull(locator);
+
             _locator = locator;
             WebElement = webDriver.FindElement(_locator);
             
@@ -18,6 +21,7 @@ namespace TestProject.POM.Elements
         public void ClearAndSendKeys(string value)
         {
             ArgumentNullException.ThrowIfNullOrWhiteSpace(value);
+
             WebElement.Clear();
             WebElement.SendKeys(value);
         }
