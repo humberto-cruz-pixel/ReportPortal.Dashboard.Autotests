@@ -22,11 +22,8 @@ public partial class LoginPage
         ArgumentException.ThrowIfNullOrWhiteSpace(user);
         ArgumentException.ThrowIfNullOrWhiteSpace(password);
 
-        UserInput.Clear();
-        UserInput.SendKeys(user);
-        PasswordInput.Clear();
-        PasswordInput.SendKeys(password);
-
+        UserInputClearAndSendKeys(user);
+        PasswordInputClearAndSendKeys(password);
         ClickOnLoginButton();
     }
 }

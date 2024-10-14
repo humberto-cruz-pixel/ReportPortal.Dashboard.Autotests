@@ -17,4 +17,32 @@ public partial class LoginPage
         }
         catch (Exception e) { throw; }
     }
+
+    private void UserInputClearAndSendKeys(string user)
+    {
+        try
+        {
+            _webDriver.WaitUntilElementExists(_passwordInputLocator,
+                _webDriverService.GetWebDriverConfiguration().LongTimeout,
+                _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
+
+            UserInput.Clear();
+            UserInput.SendKeys(user);
+        }
+        catch (Exception e) { throw; }
+    }
+
+    private void PasswordInputClearAndSendKeys(string password)
+    {
+        try
+        {
+            _webDriver.WaitUntilElementExists(_passwordInputLocator,
+                _webDriverService.GetWebDriverConfiguration().LongTimeout,
+                _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
+
+            PasswordInput.Clear();
+            PasswordInput.SendKeys(password);
+        }
+        catch (Exception e) { throw; }
+    }
 }
