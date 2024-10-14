@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
+using System.Linq;
 using WebDriverLibrary.Extensions.WebDrivers;
 
 namespace TestProject.Pages.AllDashboardPage;
@@ -15,7 +17,7 @@ public partial class AllDashboardsPage
 
             AddNewDashboardButton.Click();
         }
-        catch (Exception e) { throw;}
+        catch (Exception e) { throw; }
     }
 
     private void ClickOnEditDashboard()
@@ -37,18 +39,33 @@ public partial class AllDashboardsPage
 
         try
         {
-            DashboardInfoElement(name).Click();
+            FindDashboardName(name).Click();
         }
         catch (Exception e) { throw; }
     }
 
-    private bool DashboardElementExists(string info)
+    private IWebElement FindDashboardName(string name)
     {
-        ArgumentException.ThrowIfNullOrEmpty(info);
-
         try
         {
-            return DashboardInfoElement(info).Displayed;
+            _webDriver.WaitUntilElementIsVisible(_dashboardNamesLocator,
+                _webDriverService.GetWebDriverConfiguration().LongTimeout,
+                _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
+
+            return DashboardNames.FirstOrDefault(x => x.Text.Equals(name));
+        }
+        catch (Exception e) { throw; }
+    }
+
+    private IWebElement FindDashboardDescription(string description)
+    {
+        try
+        {
+            _webDriver.WaitUntilElementIsVisible(_dashboardDescriptionsLocator,
+                _webDriverService.GetWebDriverConfiguration().LongTimeout,
+                _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
+
+            return DashboardDescriptions.FirstOrDefault(x => x.Text.Equals(description));
         }
         catch (Exception e) { throw; }
     }

@@ -34,13 +34,17 @@ public partial class AllDashboardsPage
         ClickOnEditDashboard();
     }
 
-    public bool CheckDashboardExists(string name, string description)
+    public void CheckDashboardName(string name)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(name);
-        ArgumentException.ThrowIfNullOrWhiteSpace(description);
+        ArgumentException.ThrowIfNullOrEmpty(name);
 
-        if(DashboardElementExists(name) && DashboardElementExists(description))
-            return true;
-        return false;
-    }       
+        Assert.That(FindDashboardName(name).Displayed, Is.EqualTo(true));
+    }
+
+    public void CheckDashboardDescription(string description)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(description);
+
+        Assert.That(FindDashboardDescription(description).Displayed, Is.EqualTo(true));
+    }
 }
