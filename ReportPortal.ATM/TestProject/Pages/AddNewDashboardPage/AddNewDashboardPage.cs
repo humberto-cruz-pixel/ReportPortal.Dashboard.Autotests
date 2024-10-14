@@ -24,12 +24,8 @@ public partial class AddNewDashboardPage
         ArgumentException.ThrowIfNullOrEmpty(name);
         ArgumentException.ThrowIfNullOrEmpty(description);
 
-        NameInput.Clear();
-        NameInput.SendKeys(name);
-
-        DescriptionInput.Clear();
-        DescriptionInput.SendKeys(description);
-
+        NameClearAndSendKeys(name);
+        DescriptionClearAndSendKeys(description);
         ClickOnAdd();
     }
 }
