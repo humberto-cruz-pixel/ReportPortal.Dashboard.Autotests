@@ -1,6 +1,7 @@
 ﻿using ConfigurationLibrary.Interfaces.Configuration;
 using FrameworkFacade.FrameworkStartup;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.IO;
 using TestProject.Interfaces.Models.Dashboard;
 using TestProject.Models;
@@ -27,6 +28,7 @@ public class CreateAndEditDashboard
     private AddNewDashboardPage _addNewDashboardPage;
     private NavBarPage _navBarPage;
     private DashboardPage _dashboardPage;
+    private IServiceProvider _serviceProvider;
 
     public CreateAndEditDashboard()
     {
@@ -35,13 +37,13 @@ public class CreateAndEditDashboard
     [SetUp]
     public void Setup()
     {
-        var serviceProvider = new FrameworkService(Directory.GetCurrentDirectory(), ConfigurationKey.ConfigurationFileName)
+        _serviceProvider = new FrameworkService(Directory.GetCurrentDirectory(), ConfigurationKey.ConfigurationFileName)
         .GetServiceProvider().CreateScope().ServiceProvider;
 
-        _enviroment = new Enviroment(serviceProvider
+        _enviroment = new Enviroment(_serviceProvider
             .GetRequiredService<IConfigurationService>());
 
-        _driverService = serviceProvider.GetRequiredService<IWebDriverService>();
+        _driverService = _serviceProvider.GetRequiredService<IWebDriverService>();
         _driverService.NavigateTo(_enviroment.URL);
 
         _loginPage = new LoginPage(_driverService);
@@ -52,45 +54,47 @@ public class CreateAndEditDashboard
     }
 
 
-    [Test, TestCaseSource(typeof(TestDataLoaderNunit<DashboardCreation>), nameof(TestDataLoaderNunit<DashboardCreation>.LoadTestData), new object[] { "TestData\\Models\\Dashboard\\DashboardCreation.json" })]
+    [Test, TestCaseSource(typeof(TestDataLoaderNunit<DashboardCreation>), nameof(TestDataLoaderNunit<DashboardCreation>.LoadTestData), new object[] { "C:\\Users\\Humberto_Cruz\\Desktop\\.NET-Curso\\Repo\\ReportPortal.Dashboard.Autotests\\ReportPortal.ATM\\TestProject\\TestData\\Models\\Dashboard\\DashboardCreation.json" })]
     public void CreateNewDashbord(IDashboardCreation dashboardCreation)
     {
         _loginPage.LogIn(_enviroment.UserName, _enviroment.Password);
 
         _allDashboardsPage.OpenCreateNewDashboard();
 
-        _addNewDashboardPage.AddNewDashboard(dashboardCreation.name, dashboardCreation.description);
+        _addNewDashboardPage.AddNewDashboard(dashboardCreation.Name, dashboardCreation.Description);
 
         _navBarPage.OpenDashboardsPage();
 
-        _allDashboardsPage.CheckDashboardExists(dashboardCreation.name, dashboardCreation.description);
+        _allDashboardsPage.CheckDashboardName(dashboardCreation.Name);
+        _allDashboardsPage.CheckDashboardDescription(dashboardCreation.Description);
 
-        _allDashboardsPage.OpenDashboard(dashboardCreation.name);
+        _allDashboardsPage.OpenDashboard(dashboardCreation.Name);
 
         _dashboardPage.DeleteDashboard();
     }
 
 
-    [Test, TestCaseSource(typeof(TestDataLoaderNunit<DashboardCreation>), nameof(TestDataLoaderNunit<DashboardCreation>.LoadTestData), new object[] { "TestData\\Models\\Dashboard\\DashboardCreation.json" })]
+    [Test, TestCaseSource(typeof(TestDataLoaderNunit<DashboardCreation>), nameof(TestDataLoaderNunit<DashboardCreation>.LoadTestData), new object[] { "C:\\Users\\Humberto_Cruz\\Desktop\\.NET-Curso\\Repo\\ReportPortal.Dashboard.Autotests\\ReportPortal.ATM\\TestProject\\TestData\\Models\\Dashboard\\DashboardCreation.json" })]
     public void EditDashboard(IDashboardCreation dashboardCreation)
     {
         _loginPage.LogIn(_enviroment.UserName, _enviroment.Password);
 
         _allDashboardsPage.OpenCreateNewDashboard();
 
-        _addNewDashboardPage.AddNewDashboard(dashboardCreation.name, dashboardCreation.description);
+        _addNewDashboardPage.AddNewDashboard(dashboardCreation.Name, dashboardCreation.Description);
 
         _navBarPage.OpenDashboardsPage();
 
         _allDashboardsPage.OpenEditDashboard();
 
-        _addNewDashboardPage.AddNewDashboard(dashboardCreation.description, dashboardCreation.name);
+        _addNewDashboardPage.AddNewDashboard(dashboardCreation.Description, dashboardCreation.Name);
 
         _navBarPage.OpenDashboardsPage();
 
-        _allDashboardsPage.CheckDashboardExists(dashboardCreation.description, dashboardCreation.name);
+        _allDashboardsPage.CheckDashboardName(dashboardCreation.Description);
+        _allDashboardsPage.CheckDashboardDescription(dashboardCreation.Name);
 
-        _allDashboardsPage.OpenDashboard(dashboardCreation.description);
+        _allDashboardsPage.OpenDashboard(dashboardCreation.Description);
 
         _dashboardPage.DeleteDashboard();
     }
@@ -99,5 +103,6 @@ public class CreateAndEditDashboard
     public void TearDown()
     {
         _driverService.DisposeWebDriver();
+        _serviceProvider.CreateScope().Dispose();
     }
 }
