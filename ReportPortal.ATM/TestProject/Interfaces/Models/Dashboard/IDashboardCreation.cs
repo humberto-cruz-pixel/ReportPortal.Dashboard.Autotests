@@ -2,6 +2,6 @@
 
 public interface IDashboardCreation
 {
-    string name { get; set; }
-    string description { get; set; }
+    string Name { get; set; }
+    string Description { get; set; }
 }

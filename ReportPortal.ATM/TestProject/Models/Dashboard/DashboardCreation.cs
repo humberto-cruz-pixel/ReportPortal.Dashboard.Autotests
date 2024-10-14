@@ -4,6 +4,6 @@ namespace TestProject.Models.Dashboard;
 
 internal class DashboardCreation : IDashboardCreation
 {
-    public string name { get; set; }
-    public string description { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
 }
