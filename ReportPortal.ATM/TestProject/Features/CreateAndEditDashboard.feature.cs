@@ -28,7 +28,7 @@ namespace TestProject.Features
         
         private static string[] featureTags = ((string[])(null));
         
-#line 1 "Feature1.feature"
+#line 1 "CreateAndEditDashboard.feature"
 #line hidden
         
         [NUnit.Framework.OneTimeSetUpAttribute()]
