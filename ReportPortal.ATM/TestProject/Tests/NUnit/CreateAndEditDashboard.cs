@@ -1,7 +1,6 @@
 ﻿using ConfigurationLibrary.Interfaces.Configuration;
 using FrameworkFacade.FrameworkStartup;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.IO;
 using TestProject.Interfaces.Models.Dashboard;
 using TestProject.Models;
@@ -28,7 +27,7 @@ public class CreateAndEditDashboard
     private AddNewDashboardPage _addNewDashboardPage;
     private NavBarPage _navBarPage;
     private DashboardPage _dashboardPage;
-    private IServiceProvider _serviceProvider;
+    private IServiceScope _serviceScope;
 
     public CreateAndEditDashboard()
     {
@@ -37,13 +36,13 @@ public class CreateAndEditDashboard
     [SetUp]
     public void Setup()
     {
-        _serviceProvider = new FrameworkService(Directory.GetCurrentDirectory(), ConfigurationKey.ConfigurationFileName)
-        .GetServiceProvider().CreateScope().ServiceProvider;
+        _serviceScope = new FrameworkService(Directory.GetCurrentDirectory(), ConfigurationKey.ConfigurationFileName)
+        .GetServiceProvider().CreateScope();
 
-        _enviroment = new Enviroment(_serviceProvider
+        _enviroment = new Enviroment(_serviceScope.ServiceProvider
             .GetRequiredService<IConfigurationService>());
 
-        _driverService = _serviceProvider.GetRequiredService<IWebDriverService>();
+        _driverService = _serviceScope.ServiceProvider.GetRequiredService<IWebDriverService>();
         _driverService.NavigateTo(_enviroment.URL);
 
         _loginPage = new LoginPage(_driverService);
@@ -54,7 +53,7 @@ public class CreateAndEditDashboard
     }
 
 
-    [Test, TestCaseSource(typeof(TestDataLoaderNunit<DashboardCreation>), nameof(TestDataLoaderNunit<DashboardCreation>.LoadTestData), new object[] { "C:\\Users\\Humberto_Cruz\\Desktop\\.NET-Curso\\Repo\\ReportPortal.Dashboard.Autotests\\ReportPortal.ATM\\TestProject\\TestData\\Models\\Dashboard\\DashboardCreation.json" })]
+    [Test, TestCaseSource(typeof(TestDataLoaderNunit<DashboardCreation>), nameof(TestDataLoaderNunit<DashboardCreation>.LoadTestData), new object[] { "TestData\\Models\\Dashboard\\DashboardCreation.json" })]
     public void CreateNewDashbord(IDashboardCreation dashboardCreation)
     {
         _loginPage.LogIn(_enviroment.UserName, _enviroment.Password);
@@ -74,7 +73,7 @@ public class CreateAndEditDashboard
     }
 
 
-    [Test, TestCaseSource(typeof(TestDataLoaderNunit<DashboardCreation>), nameof(TestDataLoaderNunit<DashboardCreation>.LoadTestData), new object[] { "C:\\Users\\Humberto_Cruz\\Desktop\\.NET-Curso\\Repo\\ReportPortal.Dashboard.Autotests\\ReportPortal.ATM\\TestProject\\TestData\\Models\\Dashboard\\DashboardCreation.json" })]
+    [Test, TestCaseSource(typeof(TestDataLoaderNunit<DashboardCreation>), nameof(TestDataLoaderNunit<DashboardCreation>.LoadTestData), new object[] { "TestData\\Models\\Dashboard\\DashboardCreation.json" })]
     public void EditDashboard(IDashboardCreation dashboardCreation)
     {
         _loginPage.LogIn(_enviroment.UserName, _enviroment.Password);
@@ -103,6 +102,6 @@ public class CreateAndEditDashboard
     public void TearDown()
     {
         _driverService.DisposeWebDriver();
-        _serviceProvider.CreateScope().Dispose();
+        _serviceScope.Dispose();
     }
 }
