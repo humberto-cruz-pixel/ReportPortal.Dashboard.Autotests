@@ -1,10 +1,9 @@
-﻿using OpenQA.Selenium;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 using TestProject.Models;
-using TestProject.POM.Pages;
+using TestProject.Pages.LoginPage;
 using WebDriverLibrary.Interfaces.WebDrivers;
 
-namespace TestProject.Hooks;
+namespace TestProject.Steps;
 
 [Binding]
 public class LoginFeatureSteps
@@ -14,15 +13,13 @@ public class LoginFeatureSteps
 
     public LoginFeatureSteps()
     {
-        var webDriver = (IWebDriver)ScenarioContext.Current["webDriver"];
-
         var webDriverService = (IWebDriverService)ScenarioContext.Current["webDriverService"];
 
         _enviroment = (Enviroment)ScenarioContext.Current["enviroment"];
 
         webDriverService.NavigateTo(_enviroment.URL);
 
-        _loginPage = new LoginPage(webDriver);
+        _loginPage = new LoginPage(webDriverService);
     }
 
     [Given("I log in to ReportPortal")]

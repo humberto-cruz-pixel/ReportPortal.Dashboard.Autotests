@@ -36,17 +36,10 @@
 
   <ItemGroup>
     <Folder Include="Features\" />
-    <Folder Include="Steps\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FrameworkFacade\FrameworkFacade.csproj" />
   </ItemGroup>
-
-	<ItemGroup>
-		<Content Include="Settings.json">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-	</ItemGroup>
 
 </Project>

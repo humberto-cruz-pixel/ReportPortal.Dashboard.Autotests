@@ -2,6 +2,7 @@
 using FrameworkFacade.FrameworkStartup;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IO;
 using TechTalk.SpecFlow;
 using TestProject.Models;
 using WebDriverLibrary.Interfaces.WebDrivers;
@@ -17,8 +18,8 @@ public sealed class ScenarioHook
 
     public ScenarioHook()
     {
-        _frameworkService = new FrameworkService("\\ReportPortal.ATM\\TestProject\\", "Settings.json")
-            .GetServiceProvider();
+        _frameworkService = new FrameworkService(Directory.GetCurrentDirectory(), "Settings.json")
+            .GetServiceProvider().CreateScope().ServiceProvider;
 
         _enviroment = new Enviroment(_frameworkService
             .GetRequiredService<IConfigurationService>());
@@ -34,11 +35,7 @@ public sealed class ScenarioHook
     {
         ScenarioContext.Current["enviroment"] = _enviroment;
 
-        var webDriverService = _frameworkService.GetRequiredService<IWebDriverService>();
-
-        ScenarioContext.Current["webDriverService"] = webDriverService;
-
-        ScenarioContext.Current["webDriver"] = webDriverService.GetWebDriver();
+        ScenarioContext.Current["webDriverService"] = _frameworkService.GetRequiredService<IWebDriverService>(); ;
     }
 
     [AfterScenario]
