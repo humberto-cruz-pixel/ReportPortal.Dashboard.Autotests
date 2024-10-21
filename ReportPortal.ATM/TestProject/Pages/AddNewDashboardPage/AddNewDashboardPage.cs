@@ -6,7 +6,6 @@ namespace TestProject.Pages.AddNewDashboardPage;
 
 public partial class AddNewDashboardPage
 {
-
     private readonly IWebDriverService _webDriverService;
     private readonly IWebDriver _webDriver;
 

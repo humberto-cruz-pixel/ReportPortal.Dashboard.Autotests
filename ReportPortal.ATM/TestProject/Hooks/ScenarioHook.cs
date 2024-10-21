@@ -1,7 +1,6 @@
 ﻿using ConfigurationLibrary.Interfaces.Configuration;
 using FrameworkFacade.FrameworkStartup;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.IO;
 using TechTalk.SpecFlow;
 using TestProject.Models;
@@ -13,42 +12,35 @@ namespace TestProject.Hooks;
 [Binding]
 public sealed class ScenarioHook
 {
-    private readonly IServiceProvider _frameworkService;
+    private readonly IServiceScope _frameworkScope;
     private readonly Enviroment _enviroment;
 
     public ScenarioHook()
     {
-        _frameworkService = new FrameworkService(Directory.GetCurrentDirectory(), "Settings.json")
-            .GetServiceProvider().CreateScope().ServiceProvider;
+        _frameworkScope = new FrameworkService(Directory.GetCurrentDirectory(), "appsettings.json")
+            .GetServiceProvider().CreateScope();
 
-        _enviroment = new Enviroment(_frameworkService
+        _enviroment = new Enviroment(_frameworkScope.ServiceProvider
             .GetRequiredService<IConfigurationService>());
     }
 
-    [BeforeFeature]
-    public static void GlobalSetup()
-    {
-    }
-
     [BeforeScenario]
-    public void Setup()
+    public void Setup(ScenarioContext scenarioContext)
     {
-        ScenarioContext.Current["enviroment"] = _enviroment;
+        scenarioContext["enviroment"] = _enviroment;
 
-        ScenarioContext.Current["webDriverService"] = _frameworkService.GetRequiredService<IWebDriverService>(); ;
+        scenarioContext["webDriverService"] = _frameworkScope.ServiceProvider.GetRequiredService<IWebDriverService>();
+
+        scenarioContext["frameworkScope"] = _frameworkScope;
     }
 
     [AfterScenario]
-    public void TearDown()
+    public void AfterScenario(ScenarioContext scenarioContext)
     {
-        var webDriverService = (SeleniumWebDriverService)ScenarioContext.Current["webDriverService"];
+        var webDriverService = (SeleniumWebDriverService)scenarioContext["webDriverService"];
 
         webDriverService.DisposeWebDriver();
-    }
 
-    [AfterTestRun]
-    public void Dispose()
-    {
-        _frameworkService.CreateScope().Dispose();
+        _frameworkScope.Dispose();
     }
 }

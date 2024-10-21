@@ -10,12 +10,15 @@ public class LoginFeatureSteps
 {
     private readonly LoginPage _loginPage;
     private readonly Enviroment _enviroment;
+    private readonly ScenarioContext _scenarioContext;
 
-    public LoginFeatureSteps()
+    public LoginFeatureSteps(ScenarioContext scenarioContext)
     {
-        var webDriverService = (IWebDriverService)ScenarioContext.Current["webDriverService"];
+        _scenarioContext = scenarioContext;
 
-        _enviroment = (Enviroment)ScenarioContext.Current["enviroment"];
+        var webDriverService = _scenarioContext["webDriverService"] as IWebDriverService;
+
+        _enviroment = _scenarioContext["enviroment"] as Enviroment;
 
         webDriverService.NavigateTo(_enviroment.URL);
 
@@ -27,4 +30,6 @@ public class LoginFeatureSteps
     {
         _loginPage.LogIn(_enviroment.UserName, _enviroment.Password);
     }
+
+
 }
