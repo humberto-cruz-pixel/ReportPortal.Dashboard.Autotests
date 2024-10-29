@@ -3,7 +3,7 @@
 User is able to add widget to dashboard
 
 @Smoke
-Scenario: Add a Widget
+Scenario: Verify the user can add a widget to dashboard
 	Given I log in to ReportPortal
 	And I navigate to all dashboards page
 	When I click on add new dashboard

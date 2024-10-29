@@ -8,7 +8,7 @@ Background:
 	When I click on add new dashboard
 
 @Smoke
-Scenario Outline: Create Dashboard via UI
+Scenario Outline: Verify the user can create a new dashboard
 	When I enter dashboard <name> and <description>
 	And I navigate to all dashboards page
 	Then created dashboard should be on all dashboards page
@@ -18,7 +18,7 @@ Scenario Outline: Create Dashboard via UI
 	| test2 | hola2       |
 
 @Smoke
-Scenario Outline: Edit Dashboard via UI
+Scenario Outline: Verify the user can edit a dashboard
 	When I enter dashboard dashboard and description
 	And I navigate to all dashboards page
 	And I click on edit dashboard
