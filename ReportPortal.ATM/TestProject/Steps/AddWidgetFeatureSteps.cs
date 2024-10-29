@@ -36,15 +36,16 @@ public class AddWidgetFeatureSteps
         _dashboardPage.OpenAddWidget();
     }
 
-    [When(@"I Add (.*) widget type and enter (.*) name")]
-    public void WhenISelectWidgetType(string type, string name)
+    [When(@"I Add (.*) widget type and enter a random name")]
+    public void WhenISelectWidgetType(string type)
     {
         ArgumentNullException.ThrowIfNullOrWhiteSpace(type);
-        ArgumentNullException.ThrowIfNullOrWhiteSpace(name);
 
-        _addWidgetPage.AddNewWidget(type, name);
+        var guidName = Guid.NewGuid().ToString("N");
 
-        widgetNames.Add(name);
+        _addWidgetPage.AddNewWidget(type, guidName);
+
+        widgetNames.Add(guidName);
         widgetTypes.Add(type);
     }
 

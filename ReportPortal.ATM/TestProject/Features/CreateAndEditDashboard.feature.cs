@@ -89,11 +89,11 @@ namespace TestProject.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Create Dashboard via UI")]
+        [NUnit.Framework.DescriptionAttribute("Verify the user can create a new dashboard")]
         [NUnit.Framework.CategoryAttribute("Smoke")]
         [NUnit.Framework.TestCaseAttribute("test", "hola1", null)]
         [NUnit.Framework.TestCaseAttribute("test2", "hola2", null)]
-        public void CreateDashboardViaUI(string name, string description, string[] exampleTags)
+        public void VerifyTheUserCanCreateANewDashboard(string name, string description, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "Smoke"};
@@ -105,7 +105,7 @@ namespace TestProject.Features
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("name", name);
             argumentsOfScenario.Add("description", description);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Create Dashboard via UI", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify the user can create a new dashboard", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 11
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -133,11 +133,11 @@ this.FeatureBackground();
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Edit Dashboard via UI")]
+        [NUnit.Framework.DescriptionAttribute("Verify the user can edit a dashboard")]
         [NUnit.Framework.CategoryAttribute("Smoke")]
         [NUnit.Framework.TestCaseAttribute("testName", "Description1", null)]
         [NUnit.Framework.TestCaseAttribute("testName2", "Description2", null)]
-        public void EditDashboardViaUI(string name, string description, string[] exampleTags)
+        public void VerifyTheUserCanEditADashboard(string name, string description, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "Smoke"};
@@ -149,7 +149,7 @@ this.FeatureBackground();
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("name", name);
             argumentsOfScenario.Add("description", description);
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Edit Dashboard via UI", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify the user can edit a dashboard", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 21
 this.ScenarioInitialize(scenarioInfo);
 #line hidden

@@ -22,7 +22,7 @@ public partial class AddNewWidgetPage
     public void AddNewWidget(string type, string name)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(type);
-        ArgumentException.ThrowIfNullOrEmpty(name);
+        ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
         _nWidget += 1;
         SelectWidget(type);

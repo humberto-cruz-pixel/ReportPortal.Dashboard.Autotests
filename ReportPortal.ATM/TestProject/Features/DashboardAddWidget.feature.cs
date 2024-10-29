@@ -74,14 +74,14 @@ namespace TestProject.Features
         }
         
         [NUnit.Framework.TestAttribute()]
-        [NUnit.Framework.DescriptionAttribute("Add a Widget")]
+        [NUnit.Framework.DescriptionAttribute("Verify the user can add a widget to dashboard")]
         [NUnit.Framework.CategoryAttribute("Smoke")]
-        public void AddAWidget()
+        public void VerifyTheUserCanAddAWidgetToDashboard()
         {
             string[] tagsOfScenario = new string[] {
                     "Smoke"};
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Add a Widget", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Verify the user can add a widget to dashboard", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 6
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -108,13 +108,13 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I click on add a widget", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 12
- testRunner.And("I Add Launch statistics chart widget type and enter TestWidget name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I Add Launch statistics chart widget type and enter a random name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 13
  testRunner.And("I click on add a widget", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 14
- testRunner.And("I Add Overall statistics widget type and enter TestWidget2 name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I Add Overall statistics widget type and enter a random name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 15
  testRunner.Then("Added widgets should be on dashboard page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
