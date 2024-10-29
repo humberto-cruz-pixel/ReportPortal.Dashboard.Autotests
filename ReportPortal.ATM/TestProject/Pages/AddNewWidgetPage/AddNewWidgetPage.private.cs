@@ -64,14 +64,17 @@ public partial class AddNewWidgetPage
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
             AddWidgetButton.Click();
-
-            Func<IWebDriver, bool> waitForWidgets = driver =>
-                driver.FindElements(_widgetNamesLocator).Count == _nWidget;
-
-            _webDriver.WaitForCondition(waitForWidgets,
-            _webDriverService.GetWebDriverConfiguration().LongTimeout,
-            _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
         }
         catch (Exception e) { throw; }
+    }
+
+    private void WaitForWidgetsCountToBe(int count)
+    {
+        Func<IWebDriver, bool> waitForWidgets = driver =>
+                driver.FindElements(_widgetNamesLocator).Count == count;
+
+        _webDriver.WaitForCondition(waitForWidgets,
+        _webDriverService.GetWebDriverConfiguration().LongTimeout,
+        _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
     }
 }

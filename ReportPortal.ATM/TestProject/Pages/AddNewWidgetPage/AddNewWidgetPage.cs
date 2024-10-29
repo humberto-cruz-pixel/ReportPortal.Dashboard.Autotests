@@ -8,7 +8,6 @@ public partial class AddNewWidgetPage
 {
     private readonly IWebDriverService _webDriverService;
     private readonly IWebDriver _webDriver;
-    private int _nWidget;
 
     public AddNewWidgetPage(IWebDriverService webDriverService)
     {
@@ -16,20 +15,19 @@ public partial class AddNewWidgetPage
 
         _webDriverService = webDriverService;
         _webDriver = _webDriverService.GetWebDriver();
-        _nWidget = 0;
     }
 
-    public void AddNewWidget(string type, string name)
+    public void AddNewWidget(string type, string name, int widgetCount)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(type);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
-        _nWidget += 1;
         SelectWidget(type);
         ClickOneNextStepButton();
         ClickOnDefaultFilter();
         ClickOneNextStepButton();
         WidgetNameClearAndSendKeys(name);
         ClickOnAddWidget();
+        WaitForWidgetsCountToBe(widgetCount);
     }
 }

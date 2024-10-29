@@ -13,8 +13,6 @@ public partial class AllDashboardsPage
         "//div[@class='gridCell__grid-cell--EIqeC gridCell__align-left--DFXWN dashboardTable__description--tHp7Q']");
 
     private IWebElement AddNewDashboardButton => _webDriver.FindElement(_addNewDashboardLocator);
-    //private IWebElement DashboardInfoElement(string name) =>
-    //_webDriver.FindElement(By.XPath($"//div[@class='gridRow__grid-row--X9wIq']//*[text()='{name}']"));
 
     private IList<IWebElement> DashboardNames => _webDriver.FindElements(_dashboardNamesLocator).ToList();
 

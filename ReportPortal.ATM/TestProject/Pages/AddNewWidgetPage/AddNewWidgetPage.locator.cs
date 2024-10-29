@@ -8,7 +8,7 @@ public partial class AddNewWidgetPage
     private By _defaultFilterSelector = By.ClassName("inputRadio__toggler--ygpdQ");
     private By _widgetNameInputLocator = By.XPath("//input[@placeholder='Enter widget name']");
     private By _addWidgetButtonLocator = By.XPath("//button[text()='Add']");
-    private By _widgetTypeLocator = By.CssSelector("widgetHeader__type--yZiVg");
+    private By _widgetTypeLocator = By.CssSelector(".widgetHeader__type--yZiVg");
     private By _widgetNamesLocator = By.CssSelector(".widgetHeader__widget-name-block--AOAHS");
 
     public IWebElement WidgetTypeInput(string type) => _webDriver.

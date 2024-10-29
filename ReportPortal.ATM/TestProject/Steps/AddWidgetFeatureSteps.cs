@@ -15,8 +15,9 @@ public class AddWidgetFeatureSteps
     private readonly AddNewWidgetPage _addWidgetPage;
     private readonly DashboardPage _dashboardPage;
     private readonly ScenarioContext _scenarioContext;
-    private IList<string> widgetNames;
-    private IList<string> widgetTypes;
+    private readonly IList<string> widgetNames;
+    private readonly IList<string> widgetTypes;
+    private int widgetCount;
 
     public AddWidgetFeatureSteps(ScenarioContext scenarioContext)
     {
@@ -43,7 +44,9 @@ public class AddWidgetFeatureSteps
 
         var guidName = Guid.NewGuid().ToString("N");
 
-        _addWidgetPage.AddNewWidget(type, guidName);
+        widgetCount++;
+
+        _addWidgetPage.AddNewWidget(type, guidName, widgetCount);
 
         widgetNames.Add(guidName);
         widgetTypes.Add(type);
