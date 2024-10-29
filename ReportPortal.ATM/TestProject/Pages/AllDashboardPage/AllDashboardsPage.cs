@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using WebDriverLibrary.Interfaces.WebDrivers;
 
 namespace TestProject.Pages.AllDashboardPage;
@@ -34,17 +36,15 @@ public partial class AllDashboardsPage
         ClickOnEditDashboard();
     }
 
-    public void CheckDashboardName(string name)
+    public IList<string> GetDashboardNames()
     {
-        ArgumentException.ThrowIfNullOrEmpty(name);
-
-        Assert.That(FindDashboardName(name).Displayed, Is.EqualTo(true));
+        WaitForDashboards();
+        return DashboardNames.Select(x => x.Text).ToList();
     }
 
-    public void CheckDashboardDescription(string description)
+    public IList<string> GetDashboardsDescriptions()
     {
-        ArgumentException.ThrowIfNullOrEmpty(description);
-
-        Assert.That(FindDashboardDescription(description).Displayed, Is.EqualTo(true));
+        WaitForDashboardDescriptions();
+        return DashboardDescriptions.Select(x => x.Text).ToList();
     }
 }

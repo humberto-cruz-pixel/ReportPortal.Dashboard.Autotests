@@ -15,8 +15,8 @@ public class AddWidgetFeatureSteps
     private readonly AddNewWidgetPage _addWidgetPage;
     private readonly DashboardPage _dashboardPage;
     private readonly ScenarioContext _scenarioContext;
-    private readonly IList<string> widgetNames;
-    private readonly IList<string> widgetTypes;
+    private readonly IList<string> _widgetNames;
+    private readonly IList<string> _widgetTypes;
     private int widgetCount;
 
     public AddWidgetFeatureSteps(ScenarioContext scenarioContext)
@@ -27,8 +27,8 @@ public class AddWidgetFeatureSteps
         _addWidgetPage = new AddNewWidgetPage(driverService);
         _dashboardPage = new DashboardPage(driverService);
 
-        widgetNames = new List<string>();
-        widgetTypes = new List<string>();
+        _widgetNames = new List<string>();
+        _widgetTypes = new List<string>();
     }
 
     [When(@"I click on add a widget")]
@@ -48,20 +48,29 @@ public class AddWidgetFeatureSteps
 
         _addWidgetPage.AddNewWidget(type, guidName, widgetCount);
 
-        widgetNames.Add(guidName);
-        widgetTypes.Add(type);
+        _widgetNames.Add(guidName);
+        _widgetTypes.Add(type);
     }
 
     [Then(@"Added widgets should be on dashboard page")]
     [Then(@"Added widget should be on dashboard page")]
     public void ThenAddedWidgetShouldBeOnDashboardPage()
     {
-        foreach (var name in widgetNames)
-            _dashboardPage.IsWidgetNameInDashboard(name);
+        var actualWidgetNames = _dashboardPage.GetWidgetNames();
+        var actualWidgetTypes = _dashboardPage.GetWidgetTypes();
 
-        foreach (var type in widgetTypes)
-            _dashboardPage.IsWidgetTypeInDashboard(type);
+        Assert.Multiple(() =>
+        {
+            foreach (var widgetName in actualWidgetNames)
+            {
+                Assert.That(_widgetNames.Contains(widgetName));
+            }
 
+            foreach (var widgetType in actualWidgetTypes)
+            {
+                Assert.That(_widgetTypes.Contains(widgetType));
+            }
+        });
         _dashboardPage.DeleteDashboard();
     }
 }

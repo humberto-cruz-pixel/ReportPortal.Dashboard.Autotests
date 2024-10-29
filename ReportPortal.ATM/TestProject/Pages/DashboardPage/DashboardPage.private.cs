@@ -1,7 +1,4 @@
-﻿using OpenQA.Selenium;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using WebDriverLibrary.Extensions.WebDrivers;
 
 namespace TestProject.Pages.DashboardPage;
@@ -47,37 +44,24 @@ public partial class DashboardPage
         catch (Exception e) { throw; }
     }
 
-    private IList<string> GetWidgetNames()
+    private void WaitForWidgetNames()
     {
         try
         {
-            if (_widgetNames.Count == 0)
-            {
-                _webDriver.WaitUntilElementExists(_widgetNamesLocator,
-                _webDriverService.GetWebDriverConfiguration().LongTimeout,
-                _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
-
-                _widgetNames = WidgetNames.Select(x => x.Text).ToList();
-            }
-            return _widgetNames;
+            _webDriver.WaitUntilElementExists(_widgetNamesLocator,
+            _webDriverService.GetWebDriverConfiguration().LongTimeout,
+            _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
         }
         catch (Exception e) { throw; }
     }
 
-
-    private IList<string> GetWidgetTypes()
+    private void WaitForWidgetTypes()
     {
         try
         {
-            if (_widgetTypes.Count == 0)
-            {
-                _webDriver.WaitUntilElementExists(_widgetTypesLocator,
-                _webDriverService.GetWebDriverConfiguration().LongTimeout,
-                _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
-
-                _widgetTypes = WidgetTypes.Select(x => x.Text).ToList();
-            }
-            return _widgetTypes;
+            _webDriver.WaitUntilElementExists(_widgetTypesLocator,
+            _webDriverService.GetWebDriverConfiguration().LongTimeout,
+            _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
         }
         catch (Exception e) { throw; }
     }

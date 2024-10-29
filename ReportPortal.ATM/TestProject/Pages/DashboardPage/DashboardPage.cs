@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebDriverLibrary.Interfaces.WebDrivers;
 
 namespace TestProject.Pages.DashboardPage;
@@ -9,8 +10,6 @@ public partial class DashboardPage
 {
     private readonly IWebDriverService _webDriverService;
     private readonly IWebDriver _webDriver;
-    private IList<string> _widgetNames;
-    private IList<string> _widgetTypes;
 
     public DashboardPage(IWebDriverService webDriverService)
     {
@@ -18,9 +17,6 @@ public partial class DashboardPage
 
         _webDriverService = webDriverService;
         _webDriver = _webDriverService.GetWebDriver();
-
-        _widgetNames = new List<string>();
-        _widgetTypes = new List<string>();
     }
 
     public void DeleteDashboard()
@@ -34,15 +30,15 @@ public partial class DashboardPage
         ClickOnAddWidgetButton();
     }
 
-    public void IsWidgetNameInDashboard(string name)
+    public IList<string> GetWidgetNames()
     {
-        var names = GetWidgetNames();
-        Assert.That(names.Contains(name));
+        WaitForWidgetNames();
+        return WidgetNames.Select(x => x.Text).ToList();
     }
 
-    public void IsWidgetTypeInDashboard(string type)
+    public IList<string> GetWidgetTypes()
     {
-        var types= GetWidgetTypes();
-        Assert.That(types.Contains(type));
+        WaitForWidgetTypes();
+        return WidgetTypes.Select(x => x.Text).ToList();
     }
 }

@@ -13,7 +13,6 @@ public partial class AddNewWidgetPage
     private By _widgetListLocator = By.CssSelector(".widgetTypeItem__widget-type-item-name--WYizn");
     private By _precedingSiblingContainerLabelLocator = By.XPath(".//parent::span/preceding-sibling::span");
 
-    //public IWebElement WidgetTypeInput(string type) => _webDriver.FindElement(By.XPath($"//div[text()='{type}']/parent::span/preceding-sibling::span"));
     private IList<IWebElement> WidgetList => _webDriver.FindElements(_widgetListLocator);
     public IWebElement NextStepButton => _webDriver.FindElement(_nextStepButtonLocator);
     public IWebElement DefaultFilter => _webDriver.FindElement(_defaultFilterSelector);

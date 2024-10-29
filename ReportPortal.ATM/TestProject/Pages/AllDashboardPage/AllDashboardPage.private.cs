@@ -39,34 +39,34 @@ public partial class AllDashboardsPage
 
         try
         {
-            FindDashboardName(name).Click();
+            WaitForDashboards();
+            GetDashboardByName(name).Click();
         }
         catch (Exception e) { throw; }
     }
 
-    private IWebElement FindDashboardName(string name)
+    private void WaitForDashboards()
     {
         try
         {
             _webDriver.WaitUntilElementIsVisible(_dashboardNamesLocator,
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
-
-            return DashboardNames.FirstOrDefault(x => x.Text.Equals(name));
         }
         catch (Exception e) { throw; }
     }
 
-    private IWebElement FindDashboardDescription(string description)
+    private void WaitForDashboardDescriptions()
     {
         try
         {
             _webDriver.WaitUntilElementIsVisible(_dashboardDescriptionsLocator,
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
-
-            return DashboardDescriptions.FirstOrDefault(x => x.Text.Equals(description));
         }
         catch (Exception e) { throw; }
     }
+
+    private IWebElement GetDashboardByName(string name) =>
+        DashboardNames.FirstOrDefault(x => x.Text.Equals(name, StringComparison.Ordinal));
 }

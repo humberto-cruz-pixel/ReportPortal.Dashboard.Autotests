@@ -58,8 +58,11 @@ public class CreateAndEditDashboardFeatureSteps
         var name = _scenarioContext["dashboardName"] as string;
         var description = _scenarioContext["dashboardDescription"] as string;
 
-        _allDashboardsPage.CheckDashboardName(name);
-        _allDashboardsPage.CheckDashboardDescription(description);
+        var dashboardNames=_allDashboardsPage.GetDashboardNames();
+        var dashboardDescriptions = _allDashboardsPage.GetDashboardsDescriptions();
+
+        Assert.That(dashboardNames.Contains(name));
+        Assert.That(dashboardDescriptions.Contains(description));
 
         WhenDeleteDashboard(name);
     }
