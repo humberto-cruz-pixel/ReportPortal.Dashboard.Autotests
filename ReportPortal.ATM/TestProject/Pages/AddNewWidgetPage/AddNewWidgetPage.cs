@@ -22,7 +22,7 @@ public partial class AddNewWidgetPage
         ArgumentException.ThrowIfNullOrWhiteSpace(type);
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
 
-        SelectWidget(type);
+        ClickWidgetLabel(type);
         ClickOneNextStepButton();
         ClickOnDefaultFilter();
         ClickOneNextStepButton();

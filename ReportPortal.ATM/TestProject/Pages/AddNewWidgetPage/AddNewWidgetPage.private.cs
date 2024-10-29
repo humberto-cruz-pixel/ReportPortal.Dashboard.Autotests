@@ -1,18 +1,31 @@
 ﻿using OpenQA.Selenium;
 using System;
+using System.Linq;
 using WebDriverLibrary.Extensions.WebDrivers;
 
 namespace TestProject.Pages.AddNewWidgetPage;
 
 public partial class AddNewWidgetPage
 {
-    private void SelectWidget(string type)
+    private void ClickWidgetLabel(string label)
     {
         try
         {
-            WidgetTypeInput(type).Click();
+            ArgumentException.ThrowIfNullOrWhiteSpace(label);
+
+            _webDriver.WaitUntilElementIsVisible(_widgetListLocator,
+                        _webDriverService.GetWebDriverConfiguration().LongTimeout,
+                        _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
+
+            WidgetList
+                .First(widget => widget.Text.Equals(label, StringComparison.OrdinalIgnoreCase))
+                .FindElement(_precedingSiblingContainerLabelLocator)
+                .Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e)
+        {
+            throw;
+        }
     }
 
     private void ClickOneNextStepButton()
