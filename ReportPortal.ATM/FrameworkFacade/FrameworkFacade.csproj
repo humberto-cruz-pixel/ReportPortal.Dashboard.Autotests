@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ApiClientLibrary\RestClientLibrary.csproj" />
     <ProjectReference Include="..\ConfigurationLibrary\ConfigurationLibrary.csproj" />
     <ProjectReference Include="..\LoggerLibrary\LoggerLibrary.csproj" />
     <ProjectReference Include="..\ReporterLibrary\ReporterLibrary.csproj" />
