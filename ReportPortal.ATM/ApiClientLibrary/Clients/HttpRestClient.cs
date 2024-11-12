@@ -2,16 +2,20 @@
 using RestClientLibrary.Interfaces.Clients;
 using RestClientLibrary.Interfaces.Response;
 using RestClientLibrary.Response;
+using System.Net.Mime;
+using System.Text;
+using System.Text.Json;
 
 namespace ApiClientLibrary.ApiClients;
 public class HttpRestClient : IRestClientService
 {
     private readonly HttpClient _httpClient;
     private HttpRequestMessage _httpRequest;
-    private string baseURL;
-
+    private readonly string baseURL;
+    private readonly IApiClientConfiguration _apiClientConfiguration;
     public HttpRestClient(IApiClientConfiguration apiClientConfiguration)
     {
+        _apiClientConfiguration = apiClientConfiguration;
         _httpClient = new HttpClient();
         baseURL = apiClientConfiguration.BaseURL + "/v1/" + apiClientConfiguration.ProjectName;
     }
@@ -29,7 +33,10 @@ public class HttpRestClient : IRestClientService
 
     public IRestClientService AddRequestBody<T>(T body) where T : class
     {
-        _httpRequest.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(body), System.Text.Encoding.UTF8, "application/json");
+        var content = new StringContent(JsonSerializer.Serialize(body)
+            , Encoding.UTF8, MediaTypeNames.Application.Json);
+
+        _httpRequest.Content = content;
         return this;
     }
 
@@ -71,10 +78,9 @@ public class HttpRestClient : IRestClientService
         ArgumentNullException.ThrowIfNull(_httpRequest);
 
         _httpRequest.Headers.
-            Add("Authorization", "Bearer" + "NET_I9NhoXx5Rj-aN6dBpDCPrh6xIMZ8LNIidtUIM0i9H1_oYxA7uDRbk3HY7B-SvHAj");
+            Add("Authorization", "Bearer " + _apiClientConfiguration.Token);
 
         var response = _httpClient.Send(_httpRequest);
-
 
         return new HttpClientResponse<T>(response);
     }

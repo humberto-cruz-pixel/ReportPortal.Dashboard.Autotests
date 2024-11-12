@@ -14,7 +14,7 @@ public class WidgetService
         _apiClientService = apiClientService;
     }
 
-    public IRestClientResponse<Response> AddWidgetAsync(string widgetName)
+    public IRestClientResponse<Response> AddWidget(string widgetName)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(widgetName);
 

@@ -112,7 +112,7 @@ public class Tests
 
         Assert.Multiple(() =>
         {
-            Assert.That(response.StatusCode.Equals(HttpStatusCode.Created), $"Expected succesful status code, but found: {response.StatusCode}");
+            Assert.That(response.StatusCode.Equals(HttpStatusCode.Created), $"Expected {HttpStatusCode.Created} status code, but found: {response.StatusCode}");
             Assert.That(id, Is.Not.Null, "Id should not be empty");
 
         });
@@ -232,7 +232,7 @@ public class Tests
 
         var widgetName = Guid.NewGuid().ToString();
 
-        var widgetId = _widgetService.AddWidgetAsync( widgetName)
+        var widgetId = _widgetService.AddWidget( widgetName)
             .GetData().Id;
 
         var addWidgetResult = _dashboardService.AddWidgetAsync(dashboardId,widgetId, "Name");
@@ -259,7 +259,7 @@ public class Tests
 
         var widgetName = Guid.NewGuid().ToString();
 
-        var widgetId = _widgetService.AddWidgetAsync(widgetName)
+        var widgetId = _widgetService.AddWidget(widgetName)
             .GetData().Id;
 
         _ = _dashboardService.AddWidgetAsync(dashboardId, widgetId, "Name");
@@ -290,7 +290,7 @@ public class Tests
 
         var widgetName = Guid.NewGuid().ToString();
 
-        var widgetId = _widgetService.AddWidgetAsync(widgetName)
+        var widgetId = _widgetService.AddWidget(widgetName)
             .GetData().Id;
 
         _ = _dashboardService.AddWidgetAsync(dashboardId, widgetId, "Name");
