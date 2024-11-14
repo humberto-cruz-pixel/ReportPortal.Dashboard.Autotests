@@ -3,6 +3,7 @@ using RestClientLibrary.Interfaces.Clients;
 using RestClientLibrary.Interfaces.Response;
 using RestClientLibrary.Response;
 using System.Net.Mime;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.Json;
 
@@ -11,18 +12,20 @@ public class HttpRestClient : IRestClientService
 {
     private readonly HttpClient _httpClient;
     private HttpRequestMessage _httpRequest;
-    private readonly string _baseURL;
+    private readonly string _baseUrl;
     private readonly IApiClientConfiguration _apiClientConfiguration;
 
     public HttpRestClient(IApiClientConfiguration apiClientConfiguration)
     {
         _apiClientConfiguration = apiClientConfiguration;
         _httpClient = new HttpClient();
-        _baseURL = apiClientConfiguration.BaseURL + "/v1/" + apiClientConfiguration.ProjectName;
+        _baseUrl = _apiClientConfiguration.BaseURL + "/v1/" + _apiClientConfiguration.ProjectName;
     }
 
     public IRestClientService AddRequestParameters(Dictionary<string, string> parameters)
     {
+        ArgumentNullException.ThrowIfNull(parameters);
+
         var query = System.Web.HttpUtility.ParseQueryString(string.Empty);
         foreach (var parameter in parameters)
         {
@@ -34,6 +37,8 @@ public class HttpRestClient : IRestClientService
 
     public IRestClientService AddRequestBody<T>(T body) where T : class
     {
+        ArgumentNullException.ThrowIfNull(body);
+
         var content = new StringContent(JsonSerializer.Serialize(body)
             , Encoding.UTF8, MediaTypeNames.Application.Json);
 
@@ -43,6 +48,8 @@ public class HttpRestClient : IRestClientService
 
     public IRestClientService AddRequestHeaders(Dictionary<string, string> headers)
     {
+        ArgumentNullException.ThrowIfNull(headers);
+
         foreach (var header in headers)
         {
             _httpRequest.Headers.Add(header.Key, header.Value);
@@ -52,25 +59,33 @@ public class HttpRestClient : IRestClientService
 
     public IRestClientService CreateDeleteRequest(string resource)
     {
-        _httpRequest = new HttpRequestMessage(HttpMethod.Delete, _baseURL + resource);
+        ArgumentNullException.ThrowIfNull(resource);
+
+        _httpRequest = new HttpRequestMessage(HttpMethod.Delete, _baseUrl + resource);
         return this;
     }
 
     public IRestClientService CreateGetRequest(string resource)
     {
-        _httpRequest = new HttpRequestMessage(HttpMethod.Get, _baseURL + resource);
+        ArgumentNullException.ThrowIfNull(resource);
+
+        _httpRequest = new HttpRequestMessage(HttpMethod.Get, _baseUrl + resource);
         return this;
     }
 
     public IRestClientService CreatePostRequest(string resource)
     {
-        _httpRequest = new HttpRequestMessage(HttpMethod.Post, _baseURL + resource);
+        ArgumentNullException.ThrowIfNull(resource);
+
+        _httpRequest = new HttpRequestMessage(HttpMethod.Post, _baseUrl + resource);
         return this;
     }
 
     public IRestClientService CreatePutRequest(string resource)
     {
-        _httpRequest = new HttpRequestMessage(HttpMethod.Put, _baseURL + resource);
+        ArgumentNullException.ThrowIfNull(resource);
+
+        _httpRequest = new HttpRequestMessage(HttpMethod.Put, _baseUrl + resource);
         return this;
     }
 
