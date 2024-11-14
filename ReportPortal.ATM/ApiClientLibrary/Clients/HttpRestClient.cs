@@ -11,13 +11,14 @@ public class HttpRestClient : IRestClientService
 {
     private readonly HttpClient _httpClient;
     private HttpRequestMessage _httpRequest;
-    private readonly string baseURL;
+    private readonly string _baseURL;
     private readonly IApiClientConfiguration _apiClientConfiguration;
+
     public HttpRestClient(IApiClientConfiguration apiClientConfiguration)
     {
         _apiClientConfiguration = apiClientConfiguration;
         _httpClient = new HttpClient();
-        baseURL = apiClientConfiguration.BaseURL + "/v1/" + apiClientConfiguration.ProjectName;
+        _baseURL = apiClientConfiguration.BaseURL + "/v1/" + apiClientConfiguration.ProjectName;
     }
 
     public IRestClientService AddRequestParameters(Dictionary<string, string> parameters)
@@ -51,25 +52,25 @@ public class HttpRestClient : IRestClientService
 
     public IRestClientService CreateDeleteRequest(string resource)
     {
-        _httpRequest = new HttpRequestMessage(HttpMethod.Delete, baseURL + resource);
+        _httpRequest = new HttpRequestMessage(HttpMethod.Delete, _baseURL + resource);
         return this;
     }
 
     public IRestClientService CreateGetRequest(string resource)
     {
-        _httpRequest = new HttpRequestMessage(HttpMethod.Get, baseURL + resource);
+        _httpRequest = new HttpRequestMessage(HttpMethod.Get, _baseURL + resource);
         return this;
     }
 
     public IRestClientService CreatePostRequest(string resource)
     {
-        _httpRequest = new HttpRequestMessage(HttpMethod.Post, baseURL + resource);
+        _httpRequest = new HttpRequestMessage(HttpMethod.Post, _baseURL + resource);
         return this;
     }
 
     public IRestClientService CreatePutRequest(string resource)
     {
-        _httpRequest = new HttpRequestMessage(HttpMethod.Put, baseURL + resource);
+        _httpRequest = new HttpRequestMessage(HttpMethod.Put, _baseURL + resource);
         return this;
     }
 
