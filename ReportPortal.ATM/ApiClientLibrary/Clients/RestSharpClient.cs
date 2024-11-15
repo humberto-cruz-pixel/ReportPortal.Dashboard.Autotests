@@ -25,24 +25,32 @@ public class RestSahrpClient : IRestClientService
 
     public IRestClientService CreateGetRequest(string resource)
     {
+        ArgumentNullException.ThrowIfNull(resource);
+
         _restRequest = new RestRequest(resource, Method.Get);
         return this;
     }
 
     public IRestClientService CreatePostRequest(string resource)
     {
+        ArgumentNullException.ThrowIfNull(resource);
+
         _restRequest = new RestRequest(resource, Method.Post);
         return this;
     }
 
     public IRestClientService CreatePutRequest(string resource)
     {
+        ArgumentNullException.ThrowIfNull(resource);
+
         _restRequest = new RestRequest(resource, Method.Put);
         return this;
     }
 
     public IRestClientService CreateDeleteRequest(string resource)
     {
+        ArgumentNullException.ThrowIfNull(resource);
+
         _restRequest = new RestRequest(resource, Method.Delete);
         return this;
     }
@@ -71,6 +79,8 @@ public class RestSahrpClient : IRestClientService
 
     public IRestClientService AddRequestBody<T>(T body) where T : class
     {
+        ArgumentNullException.ThrowIfNull(body);
+
         _restRequest.AddJsonBody(body);
         return this;
     }

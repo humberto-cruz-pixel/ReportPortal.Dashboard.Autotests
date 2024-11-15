@@ -3,16 +3,22 @@ using System.Text.Json.Serialization;
 
 namespace APITests.Models.Response;
 
-public class Response
+public class ContentItem
 {
+    [JsonPropertyName("description")]
+    public string? Description { get; set; }
+
+    [JsonPropertyName("owner")]
+    public string? Owner { get; set; }
+
     [JsonPropertyName("id")]
     public int? Id { get; set; }
 
-    [JsonPropertyName("content")]
-    public List<ContentItem>? Content { get; set; }
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
 
-    [JsonPropertyName("page")]
-    public PageInfo? Page { get; set; }
+    [JsonPropertyName("widgets")]
+    public List<Widget>? Widgets { get; set; }
 
     [JsonPropertyName("errorCode")]
     public int? ErrorCode { get; set; }
