@@ -1,24 +1,22 @@
 ﻿using ApiClientLibrary.ApiClients;
-using ApiClientLibrary.Configurations;
-using ConfigurationLibrary.Interfaces.Configuration;
+using ApiClientLibrary.Interfaces.Configurations;
 using RestClientLibrary.Enums;
-using RestClientLibrary.Interfaces.Clients;
 using RestClientLibrary.Interfaces.Factories;
+using System;
 
 namespace RestClientLibrary.Factories;
 
 public class RestClientServiceFactory : IRestClientServiceFactory
 {
-    public Interfaces.Clients.IRestClientService Create(RestClientServiceType restClientServiceType, IConfigurationService configurationService)
+    public Interfaces.Clients.IRestClientService Create(RestClientServiceType restClientServiceType, IApiClientConfiguration apiClientConfiguration)
     {
-        var apiClientConfiguration = new ApiClientConfiguration(configurationService);
         switch (restClientServiceType)
         {
             case RestClientServiceType.RestSharp:
                 return new RestSahrpClient(apiClientConfiguration);
 
             case RestClientServiceType.HttpClient:
-                return new ApiClientLibrary.ApiClients.HttpRestClient(apiClientConfiguration);
+                return new HttpRestClient(apiClientConfiguration);
 
             default:
                 throw new NotImplementedException();

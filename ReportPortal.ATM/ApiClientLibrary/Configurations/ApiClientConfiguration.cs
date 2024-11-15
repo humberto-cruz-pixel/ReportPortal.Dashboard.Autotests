@@ -1,6 +1,7 @@
 ﻿using ApiClientLibrary.Interfaces.Configurations;
 using ConfigurationLibrary.Interfaces.Configuration;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace ApiClientLibrary.Configurations;
 

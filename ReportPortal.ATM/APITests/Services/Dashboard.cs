@@ -2,6 +2,7 @@
 using APITests.Models.Response;
 using RestClientLibrary.Interfaces.Clients;
 using RestClientLibrary.Interfaces.Response;
+using System;
 
 namespace APITests.Services;
 

@@ -2,10 +2,12 @@
 using RestClientLibrary.Interfaces.Clients;
 using RestClientLibrary.Interfaces.Response;
 using RestClientLibrary.Response;
+using System;
+using System.Collections.Generic;
 using System.Net.Mime;
-using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.Json;
+using System.Net.Http;
 
 namespace ApiClientLibrary.ApiClients;
 public class HttpRestClient : IRestClientService

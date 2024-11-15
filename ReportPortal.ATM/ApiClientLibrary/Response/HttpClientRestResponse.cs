@@ -1,5 +1,6 @@
 ﻿using RestClientLibrary.Interfaces.Response;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Json;
 
 namespace RestClientLibrary.Response;

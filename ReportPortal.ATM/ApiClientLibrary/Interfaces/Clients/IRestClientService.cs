@@ -1,4 +1,5 @@
 ﻿using RestClientLibrary.Interfaces.Response;
+using System.Collections.Generic;
 
 namespace RestClientLibrary.Interfaces.Clients;
 

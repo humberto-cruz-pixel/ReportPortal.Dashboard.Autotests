@@ -1,10 +1,13 @@
+using ApiClientLibrary.Interfaces.Configurations;
 using APITests.Services;
-using ConfigurationLibrary.Interfaces.Configuration;
 using FrameworkFacade.FrameworkStartup;
 using Microsoft.Extensions.DependencyInjection;
 using RestClientLibrary.Enums;
 using RestClientLibrary.Interfaces.Clients;
 using RestClientLibrary.Interfaces.Factories;
+using System;
+using System.IO;
+using System.Linq;
 using System.Net;
 
 namespace APITests.Tests;
@@ -22,15 +25,15 @@ public class Tests
     public void Setup()
     {
         _frameworkScope = new FrameworkService(Directory.GetCurrentDirectory(), "appsettings.json")
-            .GetServiceProvider().CreateScope();
+        .GetServiceProvider().CreateScope();
 
-        var configurationService = _frameworkScope.ServiceProvider.GetRequiredService<IConfigurationService>();
+        var apiClientConfiguration = _frameworkScope.ServiceProvider.GetRequiredService<IApiClientConfiguration>();
 
         _restClientFactory = _frameworkScope.ServiceProvider.GetRequiredService<IRestClientServiceFactory>();
 
-        _restClientService = _restClientFactory.Create(RestClientServiceType.RestSharp, configurationService);
+        _restClientService = _restClientFactory.Create(RestClientServiceType.RestSharp, apiClientConfiguration);
 
-        _httpRestClientService = _restClientFactory.Create(RestClientServiceType.HttpClient, configurationService);
+        _httpRestClientService = _restClientFactory.Create(RestClientServiceType.HttpClient, apiClientConfiguration);
 
         _dashboardService = new Dashboard(_restClientService);
         _widgetService = new WidgetService(_restClientService);
@@ -232,19 +235,19 @@ public class Tests
 
         var widgetName = Guid.NewGuid().ToString();
 
-        var widgetId = _widgetService.AddWidget( widgetName)
+        var widgetId = _widgetService.AddWidget(widgetName)
             .GetData().Id;
 
-        var addWidgetResult = _dashboardService.AddWidgetAsync(dashboardId,widgetId, "Name");
+        var addWidgetResult = _dashboardService.AddWidgetAsync(dashboardId, widgetId, "Name");
 
         Assert.That(addWidgetResult.StatusCode
             .Equals(HttpStatusCode.OK), $"Expected succesful status code, but found: {addWidgetResult.StatusCode}");
-        
+
         var Widgets = _dashboardService.GetDashboardById(dashboardId.ToString())
             .GetData().Widgets.Select(x => x.WidgetName).ToList();
 
         Assert.That(Widgets.Contains(widgetName));
-        
+
         _dashboardService.DeleteDashboardAsync(dashboardId.ToString());
 
     }
@@ -274,7 +277,7 @@ public class Tests
             Assert.That(deleteWidgetResult.StatusCode.Equals(HttpStatusCode.OK)
                 , $"Expected succes status code, but found: {deleteWidgetResult.StatusCode}");
 
-            Assert.That(Widgets.Contains(widgetName),Is.False);
+            Assert.That(Widgets.Contains(widgetName), Is.False);
 
         });
 

@@ -3,6 +3,8 @@ using RestClientLibrary.Interfaces.Clients;
 using RestClientLibrary.Interfaces.Response;
 using RestClientLibrary.Response;
 using RestSharp;
+using System;
+using System.Collections.Generic;
 
 namespace ApiClientLibrary.ApiClients;
 
