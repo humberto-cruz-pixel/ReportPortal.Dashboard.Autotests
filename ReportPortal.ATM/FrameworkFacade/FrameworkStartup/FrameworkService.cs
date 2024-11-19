@@ -1,10 +1,14 @@
-﻿using ConfigurationLibrary.Configuration;
+﻿using ApiClientLibrary.Configurations;
+using ApiClientLibrary.Interfaces.Configurations;
+using ConfigurationLibrary.Configuration;
 using ConfigurationLibrary.Interfaces.Configuration;
 using LoggerLibrary.Interfaces.Loggers;
 using LoggerLibrary.Loggers;
 using Microsoft.Extensions.DependencyInjection;
 using ReporterLibrary.Interfaces.Reporters;
 using ReporterLibrary.Reporters;
+using RestClientLibrary.Factories;
+using RestClientLibrary.Interfaces.Factories;
 using System;
 using WebDriverLibrary.Configurations;
 using WebDriverLibrary.Interfaces.Configurations;
@@ -28,6 +32,8 @@ public class FrameworkService
             .AddSingleton<IWebDriverConfiguration, WebDriverConfiguration>()
             .AddScoped<IWebDriverService, SeleniumWebDriverService>()
             .AddSingleton<IReporterService, ExtentReporterService>()
+            .AddSingleton<IApiClientConfiguration, ApiClientConfiguration>()
+            .AddTransient<IRestClientServiceFactory, RestClientServiceFactory>()
             .BuildServiceProvider();
     }
 
