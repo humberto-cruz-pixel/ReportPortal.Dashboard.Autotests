@@ -2,8 +2,8 @@
 using ApiClientLibrary.Interfaces.Configurations;
 using ConfigurationLibrary.Configuration;
 using ConfigurationLibrary.Interfaces.Configuration;
-using LoggerLibrary.Interfaces.Loggers;
-using LoggerLibrary.Loggers;
+using LoggerLibrary.Factories;
+using LoggerLibrary.Interfaces.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using ReporterLibrary.Interfaces.Reporters;
 using ReporterLibrary.Reporters;
@@ -28,7 +28,7 @@ public class FrameworkService
 
         _serviceProvider = new ServiceCollection()
             .AddSingleton<IConfigurationService>(new ConfigurationService(filePath, fileName))
-            .AddScoped<ILoggerService, SerilogLoggerService>()
+            .AddScoped<ILoggerServiceFactory, LoggerServiceFactory>()
             .AddSingleton<IWebDriverConfiguration, WebDriverConfiguration>()
             .AddScoped<IWebDriverService, SeleniumWebDriverService>()
             .AddSingleton<IReporterService, ExtentReporterService>()

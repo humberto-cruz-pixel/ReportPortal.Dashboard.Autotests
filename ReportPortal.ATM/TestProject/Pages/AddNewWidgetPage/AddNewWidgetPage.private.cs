@@ -24,6 +24,7 @@ public partial class AddNewWidgetPage
         }
         catch (Exception e)
         {
+            _loggerService.LogError(e, "An error occurred while clicking on widget type button", _widgetListLocator);
             throw;
         }
     }
@@ -38,7 +39,11 @@ public partial class AddNewWidgetPage
 
             NextStepButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on next setp button", _nextStepButtonLocator);
+            throw; 
+        }
     }
 
     private void ClickOnDefaultFilter()
@@ -51,7 +56,11 @@ public partial class AddNewWidgetPage
 
             DefaultFilter.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on default filter button", _defaultFilterSelector);
+            throw; 
+        }
     }
 
     private void WidgetNameClearAndSendKeys(string name)
@@ -65,7 +74,11 @@ public partial class AddNewWidgetPage
             WidgetNameInput.Clear();
             WidgetNameInput.SendKeys(name);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while sending keys to widget name input.", _widgetNameInputLocator);
+            throw; 
+        }
     }
 
     private void ClickOnAddWidget()
@@ -78,7 +91,11 @@ public partial class AddNewWidgetPage
 
             AddWidgetButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e)
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on add widget button.", _addWidgetButtonLocator);
+            throw; 
+        }
     }
 
     private void WaitForWidgetsCountToBe(int count)

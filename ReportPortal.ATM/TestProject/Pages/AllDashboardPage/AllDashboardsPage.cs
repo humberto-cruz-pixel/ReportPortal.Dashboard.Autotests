@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using LoggerLibrary.Interfaces.Loggers;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +11,18 @@ public partial class AllDashboardsPage
 {
     private readonly IWebDriverService _webDriverService;
     private readonly IWebDriver _webDriver;
+    private readonly ILoggerService _loggerService;
 
-    public AllDashboardsPage(IWebDriverService webDriverService)
+    public AllDashboardsPage(IWebDriverService webDriverService, ILoggerService loggerService)
     {
         ArgumentNullException.ThrowIfNull(webDriverService);
+        ArgumentNullException.ThrowIfNull(loggerService);
 
         _webDriverService = webDriverService;
         _webDriver = _webDriverService.GetWebDriver();
+        _loggerService = loggerService;
+
+        _loggerService.LogInformation("All Dashboards Page instantiation complete");
     }
 
     public void OpenCreateNewDashboard()

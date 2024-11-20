@@ -15,21 +15,29 @@ public partial class LoginPage
 
             LogInButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking login button.", _logInButtonLocator);
+            throw; 
+        }
     }
 
     private void UserInputClearAndSendKeys(string user)
     {
         try
         {
-            _webDriver.WaitUntilElementExists(_passwordInputLocator,
+            _webDriver.WaitUntilElementExists(_userInputLocator,
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
             UserInput.Clear();
             UserInput.SendKeys(user);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while sending keys to username input.", _userInputLocator);
+            throw; 
+        }
     }
 
     private void PasswordInputClearAndSendKeys(string password)
@@ -43,6 +51,10 @@ public partial class LoginPage
             PasswordInput.Clear();
             PasswordInput.SendKeys(password);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while sending keys to password input.", _passwordInputLocator);
+            throw; 
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Linq;
+using System.Xml.Linq;
 using WebDriverLibrary.Extensions.WebDrivers;
 
 namespace TestProject.Pages.AllDashboardPage;
@@ -17,7 +18,11 @@ public partial class AllDashboardsPage
 
             AddNewDashboardButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on add new dashboard button", _addNewDashboardLocator);
+            throw; 
+        }
     }
 
     private void ClickOnEditDashboard()
@@ -30,7 +35,11 @@ public partial class AllDashboardsPage
 
             EditDashboardButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on edit dashboard button", _editDashboardLocator);
+            throw; 
+        }
     }
 
     private void ClickOnDashboard(string name)
@@ -42,7 +51,11 @@ public partial class AllDashboardsPage
             WaitForDashboards();
             GetDashboardByName(name).Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, $"An error occurred while clicking on dashboard with name {name}", name);
+            throw; 
+        }
     }
 
     private void WaitForDashboards()
@@ -53,7 +66,11 @@ public partial class AllDashboardsPage
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e)
+        {
+            _loggerService.LogError(e, "An error occurred while waiting for dashboards to be vsisble ", _dashboardNamesLocator);
+            throw;
+        }
     }
 
     private void WaitForDashboardDescriptions()
@@ -64,7 +81,11 @@ public partial class AllDashboardsPage
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while waiting for dashboards descriptions to be vsisble ", _dashboardDescriptionsLocator);
+            throw; 
+        }
     }
 
     private IWebElement GetDashboardByName(string name) =>

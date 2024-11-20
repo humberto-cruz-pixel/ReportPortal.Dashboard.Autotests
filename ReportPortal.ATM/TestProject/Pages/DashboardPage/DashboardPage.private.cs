@@ -15,7 +15,12 @@ public partial class DashboardPage
 
             DeleteButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on delete dashboard button", 
+                _deleteButtonLoocator);
+            throw; 
+        }
     }
 
     private void ClickOnConfirmDeleteButton()
@@ -28,7 +33,12 @@ public partial class DashboardPage
 
             ConfirmDeleteButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on confirm delete dashboard button", 
+                _confirmDeleteButtonLoocator);
+            throw; 
+        }
     }
 
     private void ClickOnAddWidgetButton()
@@ -41,7 +51,11 @@ public partial class DashboardPage
 
             AddWidgetButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on add widget button", _addWidgetButtonLocator);
+            throw; 
+        }
     }
 
     private void WaitForWidgetNames()
@@ -52,7 +66,11 @@ public partial class DashboardPage
             _webDriverService.GetWebDriverConfiguration().LongTimeout,
             _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while waiting for widget names to exist", _widgetNamesLocator);
+            throw; 
+        }
     }
 
     private void WaitForWidgetTypes()
@@ -63,6 +81,10 @@ public partial class DashboardPage
             _webDriverService.GetWebDriverConfiguration().LongTimeout,
             _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while waiting for widget types to exist", _widgetTypesLocator);
+            throw; 
+        }
     }
 }
