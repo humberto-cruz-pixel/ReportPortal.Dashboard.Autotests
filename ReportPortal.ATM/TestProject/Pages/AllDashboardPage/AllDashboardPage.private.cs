@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Linq;
-using System.Xml.Linq;
+using WebDriverLibrary.Extensions.Helpers;
 using WebDriverLibrary.Extensions.WebDrivers;
 
 namespace TestProject.Pages.AllDashboardPage;
@@ -16,12 +16,14 @@ public partial class AllDashboardsPage
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
+            _webDriver.ScrollToElement(AddNewDashboardButton);
+
             AddNewDashboardButton.Click();
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             _loggerService.LogError(e, "An error occurred while clicking on add new dashboard button", _addNewDashboardLocator);
-            throw; 
+            throw;
         }
     }
 
@@ -33,12 +35,14 @@ public partial class AllDashboardsPage
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
+            _webDriver.ScrollToElement(EditDashboardButton);
+
             EditDashboardButton.Click();
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             _loggerService.LogError(e, "An error occurred while clicking on edit dashboard button", _editDashboardLocator);
-            throw; 
+            throw;
         }
     }
 
@@ -51,10 +55,10 @@ public partial class AllDashboardsPage
             WaitForDashboards();
             GetDashboardByName(name).Click();
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             _loggerService.LogError(e, $"An error occurred while clicking on dashboard with name {name}", name);
-            throw; 
+            throw;
         }
     }
 
@@ -81,10 +85,10 @@ public partial class AllDashboardsPage
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             _loggerService.LogError(e, "An error occurred while waiting for dashboards descriptions to be vsisble ", _dashboardDescriptionsLocator);
-            throw; 
+            throw;
         }
     }
 

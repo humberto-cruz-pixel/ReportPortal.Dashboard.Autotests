@@ -1,4 +1,5 @@
-﻿using LoggerLibrary.Interfaces.Loggers;
+﻿using Dynamitey.DynamicObjects;
+using LoggerLibrary.Interfaces.Loggers;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -46,5 +47,20 @@ public partial class DashboardPage
     {
         WaitForWidgetTypes();
         return WidgetTypes.Select(x => x.Text).ToList();
+    }
+
+    public void MoveWidgetPosition()
+    {
+        MoveWidgetOffset(GetWidgetNames().FirstOrDefault()!);
+    }
+
+    public IList<int> GetWidgetPosition(string widgetName)
+    {
+        return GetWidgetTransaleValues(GetWidgetContainerByName(widgetName));
+    }
+
+    public IList<int> GetWidgetPosition()
+    {
+        return GetWidgetTransaleValues(GetWidgetContainerByName(GetWidgetNames().FirstOrDefault()!));
     }
 }

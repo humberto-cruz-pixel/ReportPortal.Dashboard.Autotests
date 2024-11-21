@@ -1,5 +1,7 @@
-﻿using System;
+﻿using LoggerLibrary.Interfaces.Loggers;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TechTalk.SpecFlow;
 using TestProject.Pages.AddNewWidgetPage;
 using TestProject.Pages.DashboardPage;
@@ -23,9 +25,10 @@ public class AddWidgetFeatureSteps
     {
         _scenarioContext = scenarioContext;
         var driverService = _scenarioContext["webDriverService"] as IWebDriverService;
+        var loggerService = _scenarioContext["loggerService"] as ILoggerService;
 
-        _addWidgetPage = new AddNewWidgetPage(driverService);
-        _dashboardPage = new DashboardPage(driverService);
+        _addWidgetPage = new AddNewWidgetPage(driverService, loggerService);
+        _dashboardPage = new DashboardPage(driverService, loggerService);
 
         _widgetNames = new List<string>();
         _widgetTypes = new List<string>();
@@ -50,6 +53,26 @@ public class AddWidgetFeatureSteps
 
         _widgetNames.Add(guidName);
         _widgetTypes.Add(type);
+    }
+
+    [When(@"I drag and drop widget to random place")]
+    public void WhenIDragAndDropWidgetToRandomPlace()
+    {
+        var currentWidgetPos = _dashboardPage.GetWidgetPosition();
+
+        _scenarioContext["currentWidgetPos"] = currentWidgetPos;
+
+        _dashboardPage.MoveWidgetPosition();
+    }
+
+    [Then(@"Widget should be on different position")]
+    public void ThenWidgetShouldBeOnDifferentPosition()
+    {
+        var currentWidgetPos = _scenarioContext["currentWidgetPos"] as IList<int>;
+
+        var newWidgetPos = _dashboardPage.GetWidgetPosition();
+
+        Assert.That(currentWidgetPos!.SequenceEqual(newWidgetPos), Is.False, "Expected position to change");
     }
 
     [Then(@"Added widgets should be on dashboard page")]

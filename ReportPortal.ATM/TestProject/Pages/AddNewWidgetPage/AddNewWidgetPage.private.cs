@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Linq;
+using WebDriverLibrary.Extensions.Helpers;
 using WebDriverLibrary.Extensions.WebDrivers;
 
 namespace TestProject.Pages.AddNewWidgetPage;
@@ -33,9 +34,16 @@ public partial class AddNewWidgetPage
     {
         try
         {
-            _webDriver.WaitUntilElementIsClickable(_nextStepButtonLocator,
+            _webDriver.WaitUntilElementExists(_nextStepButtonLocator,
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
+
+            _webDriver.ScrollToElement(NextStepButton);
+
+            Func<IWebDriver, bool> waitForButtonTobeInView = driver =>
+        driver.IsElementScrolledIntoView(NextStepButton);
+
+            _webDriver.WaitForCondition(waitForButtonTobeInView, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(2));
 
             NextStepButton.Click();
         }
@@ -54,7 +62,9 @@ public partial class AddNewWidgetPage
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
-            DefaultFilter.Click();
+            _webDriver.ScrollToElement(DefaultFilter);
+
+            _webDriver.JsClickOneElement(DefaultFilter);
         }
         catch (Exception e) 
         {
@@ -88,6 +98,8 @@ public partial class AddNewWidgetPage
             _webDriver.WaitUntilElementIsClickable(_addWidgetButtonLocator,
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
+
+            _webDriver.ScrollToElement(AddWidgetButton);
 
             AddWidgetButton.Click();
         }
