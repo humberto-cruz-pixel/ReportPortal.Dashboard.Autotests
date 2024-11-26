@@ -105,7 +105,7 @@ public partial class DashboardPage
         {
             WaitForWidgetNames();
             var widgetContainer = GetWidgetHeaderByName(widgetName);
-            _webDriver.DragAndDrop(widgetContainer);
+            _webDriver.DragAndDrop(widgetContainer,200,0);
         }
         catch (Exception e)
         {

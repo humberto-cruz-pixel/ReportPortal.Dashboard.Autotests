@@ -43,7 +43,9 @@ public partial class AddNewWidgetPage
             Func<IWebDriver, bool> waitForButtonTobeInView = driver =>
         driver.IsElementScrolledIntoView(NextStepButton);
 
-            _webDriver.WaitForCondition(waitForButtonTobeInView, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(2));
+            _webDriver.WaitForCondition(waitForButtonTobeInView, 
+                _webDriverService.GetWebDriverConfiguration().MediumTimeout, 
+                _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
             NextStepButton.Click();
         }
