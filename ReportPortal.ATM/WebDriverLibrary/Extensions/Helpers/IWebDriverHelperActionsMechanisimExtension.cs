@@ -1,0 +1,23 @@
+﻿using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium;
+using System;
+
+namespace WebDriverLibrary.Extensions.Helpers;
+
+public static class IWebDriverHelperActionsMechanisimExtension
+{
+    public static void DragAndDrop(this IWebDriver webDriver, IWebElement webElement)
+    {
+        NullCheckAllParameters(webDriver, webElement);
+
+        var actions = new Actions(webDriver);
+
+        actions.DragAndDropToOffset(webElement, 400, 0).Perform();
+    }
+
+    private static void NullCheckAllParameters(IWebDriver webDriver, IWebElement webElement)
+    {
+        ArgumentNullException.ThrowIfNull(webDriver);
+        ArgumentNullException.ThrowIfNull(webElement);
+    }
+}

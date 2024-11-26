@@ -1,10 +1,9 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Interactions;
 using System;
 
 namespace WebDriverLibrary.Extensions.Helpers;
 
-public static class IWebDriverHelperMechanisimExtension
+public static class IWebDriverHelperJsMechanisimExtension
 {
     public static void JsClickOneElement(this IWebDriver webDriver, IWebElement webElement)
     {
@@ -13,15 +12,6 @@ public static class IWebDriverHelperMechanisimExtension
         var jsExecutor = (IJavaScriptExecutor)webDriver;
 
         jsExecutor.ExecuteScript("arguments[0].click();", webElement);
-    }
-
-    public static void DragAndDrop(this IWebDriver webDriver, IWebElement webElement)
-    {
-        NullCheckAllParameters(webDriver, webElement);
-
-        var actions = new Actions(webDriver);
-
-        actions.DragAndDropToOffset(webElement, 400,0).Perform();
     }
 
     public static void ScrollToElement(this IWebDriver webDriver, IWebElement webElement)
@@ -49,7 +39,6 @@ public static class IWebDriverHelperMechanisimExtension
             ");",
             webElement);
     }
-
 
     private static void NullCheckAllParameters(IWebDriver webDriver, IWebElement webElement)
     {
