@@ -12,7 +12,7 @@ public static class IWebDriverHelperActionsMechanisimExtension
 
         var actions = new Actions(webDriver);
 
-        actions.DragAndDropToOffset(webElement, 400, 0).Perform();
+        actions.DragAndDropToOffset(webElement, offsetX, offsetY).Perform();
     }
 
     private static void NullCheckAllParameters(IWebDriver webDriver, IWebElement webElement, int offsetX, int offsetY)

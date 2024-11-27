@@ -161,7 +161,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("I Add Launch statistics chart widget type and enter a random name", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 25
- testRunner.And("I drag and drop widget to random place", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I drag and drop widget to 200 and 0", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 26
  testRunner.Then("Widget should be on different position", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

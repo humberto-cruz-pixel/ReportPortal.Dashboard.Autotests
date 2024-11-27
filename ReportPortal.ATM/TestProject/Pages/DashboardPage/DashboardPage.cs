@@ -49,9 +49,9 @@ public partial class DashboardPage
         return WidgetTypes.Select(x => x.Text).ToList();
     }
 
-    public void MoveWidgetPosition()
+    public void MoveWidgetPosition(int offsetX, int offsetY)
     {
-        MoveWidgetOffset(GetWidgetNames().FirstOrDefault()!);
+        MoveWidgetOffset(GetWidgetNames().FirstOrDefault()!, offsetX, offsetY);
     }
 
     public IList<int> GetWidgetPosition(string widgetName)

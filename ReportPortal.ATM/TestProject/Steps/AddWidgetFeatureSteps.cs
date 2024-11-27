@@ -55,14 +55,14 @@ public class AddWidgetFeatureSteps
         _widgetTypes.Add(type);
     }
 
-    [When(@"I drag and drop widget to random place")]
-    public void WhenIDragAndDropWidgetToRandomPlace()
+    [When(@"I drag and drop widget to (\d+) and (\d+)")]
+    public void WhenIDragAndDropWidgetToRandomPlace(int offsetX, int offsetY)
     {
         var currentWidgetPos = _dashboardPage.GetWidgetPosition();
 
         _scenarioContext["currentWidgetPos"] = currentWidgetPos;
 
-        _dashboardPage.MoveWidgetPosition();
+        _dashboardPage.MoveWidgetPosition(offsetX, offsetY);
     }
 
     [Then(@"Widget should be on different position")]

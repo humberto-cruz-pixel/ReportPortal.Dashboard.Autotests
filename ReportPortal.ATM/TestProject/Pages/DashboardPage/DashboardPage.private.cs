@@ -99,13 +99,13 @@ public partial class DashboardPage
         }
     }
 
-    private void MoveWidgetOffset(string widgetName)
+    private void MoveWidgetOffset(string widgetName, int offsetX, int offsetY)
     {
         try
         {
             WaitForWidgetNames();
             var widgetContainer = GetWidgetHeaderByName(widgetName);
-            _webDriver.DragAndDrop(widgetContainer,200,0);
+            _webDriver.DragAndDrop(widgetContainer, offsetX, offsetY);
         }
         catch (Exception e)
         {

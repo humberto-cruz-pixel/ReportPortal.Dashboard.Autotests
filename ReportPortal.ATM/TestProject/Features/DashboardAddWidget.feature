@@ -22,6 +22,6 @@ Scenario: Verify the user can add a widget to dashboard - Drag and Drop
 	And I enter dashboard TDashboard and TDesc
 	And I click on add a widget
 	And I Add Launch statistics chart widget type and enter a random name
-	And I drag and drop widget to random place
+	And I drag and drop widget to 200 and 0
 	Then Widget should be on different position
 	And Added widgets should be on dashboard page
