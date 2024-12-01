@@ -15,6 +15,10 @@ public partial class NavBarPage
 
             DashboardsPageButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking Dashboards page button.", _dashboardsPageLocator);
+            throw; 
+        }
     }
 }

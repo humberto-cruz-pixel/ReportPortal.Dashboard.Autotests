@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using LoggerLibrary.Interfaces.Loggers;
+using TechTalk.SpecFlow;
 using TestProject.Pages.AddNewDashboardPage;
 using TestProject.Pages.AllDashboardPage;
 using TestProject.Pages.DashboardPage;
@@ -21,11 +22,12 @@ public class CreateAndEditDashboardFeatureSteps
         _scenarioContext = scenarioContext;
 
         var driverService = _scenarioContext["webDriverService"] as IWebDriverService;
+        var loggerService = _scenarioContext["loggerService"] as ILoggerService;
 
-        _allDashboardsPage = new AllDashboardsPage(driverService);
-        _addNewDashboardPage = new AddNewDashboardPage(driverService);
-        _navBarPage = new NavBarPage(driverService);
-        _dashboardPage = new DashboardPage(driverService);
+        _allDashboardsPage = new AllDashboardsPage(driverService, loggerService);
+        _addNewDashboardPage = new AddNewDashboardPage(driverService, loggerService);
+        _navBarPage = new NavBarPage(driverService, loggerService);
+        _dashboardPage = new DashboardPage(driverService, loggerService);
     }
 
     [Given(@"I navigate to all dashboards page")]

@@ -1,4 +1,5 @@
-﻿using TechTalk.SpecFlow;
+﻿using LoggerLibrary.Interfaces.Loggers;
+using TechTalk.SpecFlow;
 using TestProject.Models;
 using TestProject.Pages.LoginPage;
 using WebDriverLibrary.Interfaces.WebDrivers;
@@ -20,9 +21,11 @@ public class LoginFeatureSteps
 
         _enviroment = _scenarioContext["enviroment"] as Enviroment;
 
-        webDriverService.NavigateTo(_enviroment.URL);
+        webDriverService!.NavigateTo(_enviroment.URL);
+        
+        var loggerService = _scenarioContext["loggerService"] as ILoggerService;
 
-        _loginPage = new LoginPage(webDriverService);
+        _loginPage = new LoginPage(webDriverService, loggerService!);
     }
 
     [Given("I log in to ReportPortal")]

@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Linq;
+using WebDriverLibrary.Extensions.Helpers;
 using WebDriverLibrary.Extensions.WebDrivers;
 
 namespace TestProject.Pages.AddNewWidgetPage;
@@ -24,6 +25,7 @@ public partial class AddNewWidgetPage
         }
         catch (Exception e)
         {
+            _loggerService.LogError(e, "An error occurred while clicking on widget type button", _widgetListLocator);
             throw;
         }
     }
@@ -32,13 +34,26 @@ public partial class AddNewWidgetPage
     {
         try
         {
-            _webDriver.WaitUntilElementIsClickable(_nextStepButtonLocator,
+            _webDriver.WaitUntilElementExists(_nextStepButtonLocator,
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
+                _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
+
+            _webDriver.ScrollToElement(NextStepButton);
+
+            Func<IWebDriver, bool> waitForButtonTobeInView = driver =>
+        driver.IsElementScrolledIntoView(NextStepButton);
+
+            _webDriver.WaitForCondition(waitForButtonTobeInView, 
+                _webDriverService.GetWebDriverConfiguration().MediumTimeout, 
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
             NextStepButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on next setp button", _nextStepButtonLocator);
+            throw; 
+        }
     }
 
     private void ClickOnDefaultFilter()
@@ -49,9 +64,15 @@ public partial class AddNewWidgetPage
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
-            DefaultFilter.Click();
+            _webDriver.ScrollToElement(DefaultFilter);
+
+            _webDriver.JsClickOneElement(DefaultFilter);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on default filter button", _defaultFilterSelector);
+            throw; 
+        }
     }
 
     private void WidgetNameClearAndSendKeys(string name)
@@ -65,7 +86,11 @@ public partial class AddNewWidgetPage
             WidgetNameInput.Clear();
             WidgetNameInput.SendKeys(name);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while sending keys to widget name input.", _widgetNameInputLocator);
+            throw; 
+        }
     }
 
     private void ClickOnAddWidget()
@@ -76,9 +101,15 @@ public partial class AddNewWidgetPage
                 _webDriverService.GetWebDriverConfiguration().LongTimeout,
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
+            _webDriver.ScrollToElement(AddWidgetButton);
+
             AddWidgetButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e)
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on add widget button.", _addWidgetButtonLocator);
+            throw; 
+        }
     }
 
     private void WaitForWidgetsCountToBe(int count)

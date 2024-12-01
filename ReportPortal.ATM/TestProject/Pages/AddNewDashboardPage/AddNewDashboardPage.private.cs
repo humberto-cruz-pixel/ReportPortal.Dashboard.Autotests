@@ -15,7 +15,11 @@ public partial class AddNewDashboardPage
 
             AddButton.Click();
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while clicking on add new dashboard button", _addButtonLocator);
+            throw;
+        }
     }
 
     private void NameClearAndSendKeys(string name)
@@ -29,7 +33,11 @@ public partial class AddNewDashboardPage
             NameInput.Clear();
             NameInput.SendKeys(name);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while sending keys to dashboard name input.", _nameInputLocator);
+            throw; 
+        }
     }
 
     private void DescriptionClearAndSendKeys(string description)
@@ -43,6 +51,10 @@ public partial class AddNewDashboardPage
             DescriptionInput.Clear();
             DescriptionInput.SendKeys(description);
         }
-        catch (Exception e) { throw; }
+        catch (Exception e) 
+        {
+            _loggerService.LogError(e, "An error occurred while sending keys to dashboard description input.", _descriptionInputLocator);
+            throw; 
+        }
     }
 }
