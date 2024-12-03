@@ -20,7 +20,7 @@ public partial class LoginPage
         _webDriver = _webDriverService.GetWebDriver();
         _loggerService = loggerService;
 
-        _loggerService.LogInformation("Login Page instantiation complete");
+        _loggerService.LogInformation("Login Page instantiation complete ");
     }
 
     public void LogIn(string user, string password)
