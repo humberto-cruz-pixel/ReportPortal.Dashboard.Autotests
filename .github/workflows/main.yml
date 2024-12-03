@@ -21,25 +21,21 @@ jobs:
 
     - name: Restore dependencies
       run: |
-        for proj in $(find . -name '*.csproj'); do
-          dotnet restore $proj
+        dotnet restore ReportPortal.ATM/APITests/APITests.csproj
         done
       shell: bash
 
     - name: Build
       run: |
-        for proj in $(find . -name '*.csproj'); do
-          dotnet build $proj --configuration Release --no-restore
+        dotnet build ReportPortal.ATM/APITests/APITests.csproj --configuration Release --no-restore
         done
       shell: bash
 
     - name: Test
       run: |
+        $env:API_TOKEN="${{ secrets.API_TOKEN }}"
+        $env:USER_NAME="${{ secrets.USER_NAME }}"
+        $env:PASSWORD="${{ secrets.PASSWORD }}"
         dotnet test ReportPortal.ATM/APITests/APITests.csproj --no-restore --verbosity normal
         done
-      shell: bash
-      env:
-        API_TOKEN: ${{ secrets.API_TOKEN }}
-        USER_NAME: ${{ secrets.USER_NAME }}
-        PASSWORD: ${{ secrets.PASSWORD }}
-
+      shell: pwsh
