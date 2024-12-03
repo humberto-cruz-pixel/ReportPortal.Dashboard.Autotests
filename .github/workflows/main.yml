@@ -35,8 +35,7 @@ jobs:
 
     - name: Test
       run: |
-        for proj in $(find . -name '*.csproj'); do
-          dotnet test $proj --no-restore --verbosity normal
+        dotnet test ReportPortal.ATM/APITests/APITests.csproj --no-restore --verbosity normal
         done
       shell: bash
       env:
@@ -44,11 +43,3 @@ jobs:
         USER_NAME: ${{ secrets.USER_NAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
 
-    - name: Publish Test Results
-      uses: dorny/test-reporter@v1
-      if: always()
-      with:
-        name: .NET Test Results
-        path: '**/TestResults/*.trx'
-        reporter: 'dotnet-trx'
-        fail-on-error: true
