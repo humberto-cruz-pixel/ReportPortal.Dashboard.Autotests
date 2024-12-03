@@ -24,22 +24,26 @@ jobs:
         for proj in $(find . -name '*.csproj'); do
           dotnet restore $proj
         done
+      shell: bash
 
     - name: Build
       run: |
         for proj in $(find . -name '*.csproj'); do
           dotnet build $proj --configuration Release --no-restore
         done
-      
+      shell: bash
+
     - name: Test
       run: |
         for proj in $(find . -name '*.csproj'); do
           dotnet test $proj --no-restore --verbosity normal
+        done
+      shell: bash
       env:
         API_TOKEN: ${{ secrets.API_TOKEN }}
         USER_NAME: ${{ secrets.USER_NAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
-        
+
     - name: Publish Test Results
       uses: dorny/test-reporter@v1
       if: always()
