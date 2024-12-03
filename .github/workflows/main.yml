@@ -11,22 +11,40 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    - name: Setup .NET
+    - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '8.0.x'
+        dotnet-version: '5.0.x'  # Specify the .NET version
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: |
+        for proj in $(find . -name '*.csproj'); do
+          dotnet restore $proj
+        done
 
     - name: Build
-      run: dotnet build --no-restore
-
+      run: |
+        for proj in $(find . -name '*.csproj'); do
+          dotnet build $proj --configuration Release --no-restore
+        done
+      
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: |
+        for proj in $(find . -name '*.csproj'); do
+          dotnet test $proj --no-restore --verbosity normal
       env:
         API_TOKEN: ${{ secrets.API_TOKEN }}
         USER_NAME: ${{ secrets.USER_NAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
+        
+    - name: Publish Test Results
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: .NET Test Results
+        path: '**/TestResults/*.trx'
+        reporter: 'dotnet-trx'
+        fail-on-error: true
