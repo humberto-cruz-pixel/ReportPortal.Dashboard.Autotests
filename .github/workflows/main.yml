@@ -1,0 +1,43 @@
+name: .NET Test Workflow
+
+on:
+  push:
+    branches: [007-CICD-Pipeline]
+  schedule:
+    - cron: '0 0 * * *'  # Run once per day at midnight
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest  # Use a Windows runner
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '5.0.x'  # Specify the .NET version
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Copy Config File
+      run: cp path/to/source/configfile.config path/to/destination/configfile.config
+      shell: bash
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+      continue-on-error: true  # Continue if tests fail
+
+    - name: Publish Test Results
+      uses: dorny/test-reporter@v1
+      if: always()  # Always run this step
+      with:
+        name: Publish Test Results
+        path: '**/TestResults/*.trx'
+        reporter: 'dotnet-trx'
+        fail-on-error: false  # Do not fail the job if publishing fails
