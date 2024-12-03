@@ -95,8 +95,12 @@ public class HttpRestClient : IRestClientService
     {
         ArgumentNullException.ThrowIfNull(_httpRequest);
 
+        var _apiToken = Environment.GetEnvironmentVariable("API_TOKEN")!;
+
+        ArgumentNullException.ThrowIfNull(_apiToken);
+
         _httpRequest.Headers.
-            Add("Authorization", "Bearer " + _apiClientConfiguration.Token);
+            Add("Authorization", "Bearer " + _apiToken);
 
         var response = _httpClient.Send(_httpRequest);
 

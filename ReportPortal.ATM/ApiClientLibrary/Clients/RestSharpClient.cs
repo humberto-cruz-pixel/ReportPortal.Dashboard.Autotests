@@ -18,9 +18,16 @@ public class RestSahrpClient : IRestClientService
     public RestSahrpClient(IApiClientConfiguration apiClientConfiguration)
     {
         _apiClientConfiguration = apiClientConfiguration;
+
         ConfigureApiClient();
-        _restClient = new RestClient(_restClientOptions);
-        _restClient.AddDefaultHeader("Authorization", "Bearer " + _apiClientConfiguration.Token);
+
+        _restClient = new RestClient(_restClientOptions!);
+
+        var _apiToken = Environment.GetEnvironmentVariable("API_TOKEN")!;
+
+        ArgumentNullException.ThrowIfNull(_apiToken);
+
+        _restClient.AddDefaultHeader("Authorization", "Bearer " + _apiToken);
     }
 
     public IRestClientService CreateGetRequest(string resource)

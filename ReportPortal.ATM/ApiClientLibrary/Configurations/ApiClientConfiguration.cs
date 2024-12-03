@@ -9,7 +9,6 @@ public class ApiClientConfiguration : IApiClientConfiguration
 {
     public string BaseURL { get; set; }
     public string ProjectName { get; set; }
-    public string Token { get; set; }
 
     public ApiClientConfiguration(IConfigurationService configurationService)
     {
