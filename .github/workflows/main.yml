@@ -9,15 +9,19 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-
+    
     steps:
+    - name: Set PowerShell Execution Policy
+      run: Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+      shell: powershell
+      
     - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1'  # Specify your dotnet version
+        dotnet-version: '8.0.400'  # Specify your dotnet version
 
     - name: Restore dependencies
       run: dotnet restore C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj
