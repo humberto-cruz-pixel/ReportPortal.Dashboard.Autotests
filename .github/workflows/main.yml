@@ -2,9 +2,9 @@ name: .NET Build and Test
 
 on:
   push:
-    branches: [ main ]
+    branches: [ 007-CICD-Pipeline ]
   pull_request:
-    branches: [ main ]
+    branches: [ 007-CICD-Pipeline ]
 
 jobs:
   build:
