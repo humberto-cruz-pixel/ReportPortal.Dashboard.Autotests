@@ -2,18 +2,15 @@ name: .NET Build and Test
 
 on:
   push:
-    branches: [ 007-CICD-Pipeline ]
+    branches: [ '007-CICD-Pipeline' ]
   pull_request:
-    branches: [ 007-CICD-Pipeline ]
+    branches: [ '007-CICD-Pipeline' ]
 
 jobs:
   build:
     runs-on: self-hosted
     
     steps:
-    
-    - shell: cmd
-    
     - name: Checkout code
       uses: actions/checkout@v2
 
@@ -23,10 +20,13 @@ jobs:
         dotnet-version: '8.0.400'  # Specify your dotnet version
 
     - name: Restore dependencies
-      run: dotnet restore C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj
+      run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
+      shell: cmd
 
     - name: Build
-      run: dotnet build --no-restoreC:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj  # Adjust path
+      run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
+      shell: cmd
 
     - name: Test
-      run: dotnet test --no-build C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj  # Adjust path
+      run: dotnet test --no-build "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
+      shell: cmd
