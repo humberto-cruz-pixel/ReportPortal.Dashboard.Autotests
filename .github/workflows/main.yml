@@ -30,3 +30,7 @@ jobs:
     - name: Test
       run: dotnet test --no-build "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
       shell: cmd
+      env:
+        API_TOKEN: ${{ secrets.API_TOKEN }}
+        USER_NAME: ${{ secrets.USER_NAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
