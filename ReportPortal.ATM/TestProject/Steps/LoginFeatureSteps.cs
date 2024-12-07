@@ -3,6 +3,7 @@ using System;
 using TechTalk.SpecFlow;
 using TestProject.Models;
 using TestProject.Pages.LoginPage;
+using TestProject.Pages.NgrokWarningPage;
 using WebDriverLibrary.Interfaces.WebDrivers;
 
 namespace TestProject.Steps;
@@ -10,6 +11,7 @@ namespace TestProject.Steps;
 [Binding]
 public class LoginFeatureSteps
 {
+    private readonly WarningPage _warningPage;
     private readonly LoginPage _loginPage;
     private readonly Enviroment _enviroment;
     private readonly ScenarioContext _scenarioContext;
@@ -30,6 +32,8 @@ public class LoginFeatureSteps
 
         _loginPage = new LoginPage(webDriverService, loggerService!);
 
+        _warningPage = new WarningPage(webDriverService, loggerService!);
+
         _userName = Environment.GetEnvironmentVariable("USER_NAME")!;
 
         _password = Environment.GetEnvironmentVariable("PASSWORD")!;
@@ -38,6 +42,8 @@ public class LoginFeatureSteps
     [Given("I log in to ReportPortal")]
     public void LoginToReportPortal()
     {
+        _warningPage.OpenVisitSite();
+
         _loginPage.LogIn(_userName, _password);
     }
 }

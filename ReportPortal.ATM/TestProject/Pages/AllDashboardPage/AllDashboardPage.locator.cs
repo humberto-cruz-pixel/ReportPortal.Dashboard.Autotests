@@ -6,7 +6,7 @@ namespace TestProject.Pages.AllDashboardPage;
 
 public partial class AllDashboardsPage
 {
-    private By _addNewDashboardLocator = By.XPath("//span[text()='Add New Dashboard']");
+    private By _addNewDashboardLocator = By.XPath("//span[text()='Add New Dashboard']//ancestor::button");
     private By _editDashboardLocator = By.CssSelector(".icon__icon--coE7b.icon__icon-pencil--hZNP6");
     private By _dashboardNamesLocator = By.XPath("//div[@class='gridRow__grid-row--X9wIq']//a");
     private By _dashboardDescriptionsLocator = By.XPath("//div[@class='gridRow__grid-row--X9wIq']" +

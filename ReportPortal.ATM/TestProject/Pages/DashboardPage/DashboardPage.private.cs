@@ -30,6 +30,22 @@ public partial class DashboardPage
         }
     }
 
+    private void WaitForDeleteConfirmationMessage()
+    {
+        try
+        {
+            _webDriver.WaitUntilElementIsVisible(_dashboardDeletedMessageLocator,
+                _webDriverService.GetWebDriverConfiguration().LongTimeout,
+                _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
+        }
+        catch (Exception e)
+        {
+            _loggerService.LogError(e, "An error occurred while waiting for delete dashboard confirmation message",
+                _confirmDeleteButtonLoocator);
+            throw;
+        }
+    }
+
     private void ClickOnConfirmDeleteButton()
     {
         try
@@ -73,7 +89,7 @@ public partial class DashboardPage
     {
         try
         {
-            _webDriver.WaitUntilElementExists(_widgetNamesLocator,
+            _webDriver.WaitUntilElementIsVisible (_widgetNamesLocator,
             _webDriverService.GetWebDriverConfiguration().LongTimeout,
             _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
         }

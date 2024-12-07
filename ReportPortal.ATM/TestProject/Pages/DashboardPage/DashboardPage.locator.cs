@@ -14,10 +14,12 @@ public partial class DashboardPage
     private By _widgetGridContainerLocator = By
         .XPath("./ancestor::div[@class='react-grid-item widgetsGrid__widget-view--PZkC5 react-draggable cssTransforms react-resizable']");
     private By _widgetHeaderLocator = By.XPath("./ancestor::div[@class='widgetHeader__info-block--Lp75m']");
+    private By _dashboardDeletedMessageLocator = By.XPath("//p[text()='Dashboard has been deleted']");
     
     public IWebElement DeleteButton => _webDriver.FindElement(_deleteButtonLoocator);
     public IWebElement ConfirmDeleteButton => _webDriver.FindElement(_confirmDeleteButtonLoocator);
     public IWebElement AddWidgetButton => _webDriver.FindElement(_addWidgetButtonLocator);
     public IList<IWebElement> WidgetNames => _webDriver.FindElements(_widgetNamesLocator);
     public IList<IWebElement> WidgetTypes => _webDriver.FindElements(_widgetTypesLocator);
+    public IWebElement DashboardDeletedMessage => _webDriver.FindElement(_dashboardDeletedMessageLocator);
 }

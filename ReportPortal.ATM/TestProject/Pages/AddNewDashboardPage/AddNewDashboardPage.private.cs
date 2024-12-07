@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using WebDriverLibrary.Extensions.WebDrivers;
 
 namespace TestProject.Pages.AddNewDashboardPage;

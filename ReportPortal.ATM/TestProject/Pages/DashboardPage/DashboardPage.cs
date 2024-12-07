@@ -1,5 +1,4 @@
-﻿using Dynamitey.DynamicObjects;
-using LoggerLibrary.Interfaces.Loggers;
+﻿using LoggerLibrary.Interfaces.Loggers;
 using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
@@ -30,6 +29,7 @@ public partial class DashboardPage
     {
         ClickOnDeleteButton();
         ClickOnConfirmDeleteButton();
+        WaitForDeleteConfirmationMessage();
     }
 
     public void OpenAddWidget()
@@ -52,11 +52,6 @@ public partial class DashboardPage
     public void MoveWidgetPosition(int offsetX, int offsetY)
     {
         MoveWidgetOffset(GetWidgetNames().FirstOrDefault()!, offsetX, offsetY);
-    }
-
-    public IList<int> GetWidgetPosition(string widgetName)
-    {
-        return GetWidgetTransaleValues(GetWidgetContainerByName(widgetName));
     }
 
     public IList<int> GetWidgetPosition()

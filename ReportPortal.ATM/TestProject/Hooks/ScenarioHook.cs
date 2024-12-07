@@ -54,7 +54,7 @@ public sealed class ScenarioHook
     }
 
     [BeforeStep]
-    public void BeforeStep(ScenarioContext scenarioContext)
+    public static void BeforeStep(ScenarioContext scenarioContext)
     {
         var logger = scenarioContext["loggerService"] as ILoggerService;
         var definitionType = scenarioContext.StepContext.StepInfo.StepDefinitionType;
@@ -64,7 +64,7 @@ public sealed class ScenarioHook
     }
 
     [AfterStep]
-    public void AfterStep(ScenarioContext scenarioContext)
+    public static void AfterStep(ScenarioContext scenarioContext)
     {
         var logger = scenarioContext["loggerService"] as ILoggerService;
 

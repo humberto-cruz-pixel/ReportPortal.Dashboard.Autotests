@@ -17,8 +17,12 @@ public partial class AllDashboardsPage
                 _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
             _webDriver.ScrollToElement(AddNewDashboardButton);
+            _webDriver.WaitForCondition(webDriver => webDriver.IsElementScrolledIntoView(AddNewDashboardButton),
+                _webDriverService.GetWebDriverConfiguration().ShortTimeout,
+                _webDriverService.GetWebDriverConfiguration().PollingIntervalTimeout);
 
             AddNewDashboardButton.Click();
+
         }
         catch (Exception e)
         {
