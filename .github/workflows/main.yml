@@ -1,38 +1,29 @@
-name: .NET CI
+name: .NET Build and Test
 
 on:
   push:
-    branches: [ 007-CICD-Pipeline ]
+    branches: [ main ]
   pull_request:
-    branches: [ 007-CICD-Pipeline ]
+    branches: [ main ]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: self-hosted
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Setup .NET Core
+    - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '8.0.x'  # Specify the .NET version
+        dotnet-version: '3.1'  # Specify your dotnet version
 
     - name: Restore dependencies
-      run: |
-        dotnet restore ReportPortal.ATM/APITests/APITests.csproj
-      shell: bash
+      run: dotnet restore C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj
 
     - name: Build
-      run: |
-        dotnet build ReportPortal.ATM/APITests/APITests.csproj --configuration Release --no-restore
-      shell: bash
+      run: dotnet build --no-restoreC:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj  # Adjust path
 
     - name: Test
-      run: |
-        $env:API_TOKEN="${{ secrets.API_TOKEN }}"
-        $env:USER_NAME="${{ secrets.USER_NAME }}"
-        $env:PASSWORD="${{ secrets.PASSWORD }}"
-        dotnet test ReportPortal.ATM/APITests/APITests.csproj --no-restore --verbosity normal
-      shell: pwsh
+      run: dotnet test --no-build C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj  # Adjust path
