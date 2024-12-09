@@ -34,6 +34,8 @@ public sealed class ScenarioHook
 
         _loggerService = _frameworkScope.ServiceProvider.GetRequiredService<ILoggerServiceFactory>()
             .CreateLoggerService(fullFilePath);
+
+        //DotNetEnv.Env.Load(Directory.GetCurrentDirectory() + "\\Enviroment.env");
     }
 
     [BeforeScenario]

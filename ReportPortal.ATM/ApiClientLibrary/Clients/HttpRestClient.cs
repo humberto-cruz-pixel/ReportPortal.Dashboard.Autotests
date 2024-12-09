@@ -16,12 +16,14 @@ public class HttpRestClient : IRestClientService
     private HttpRequestMessage _httpRequest;
     private readonly string _baseUrl;
     private readonly IApiClientConfiguration _apiClientConfiguration;
+    private readonly string _apiToken;
 
     public HttpRestClient(IApiClientConfiguration apiClientConfiguration)
     {
         _apiClientConfiguration = apiClientConfiguration;
         _httpClient = new HttpClient();
         _baseUrl = _apiClientConfiguration.BaseURL + "/v1/" + _apiClientConfiguration.ProjectName;
+        _apiToken = Environment.GetEnvironmentVariable("API_TOKEN")!;
     }
 
     public IRestClientService AddRequestParameters(Dictionary<string, string> parameters)
@@ -33,7 +35,7 @@ public class HttpRestClient : IRestClientService
         {
             query[parameter.Key] = parameter.Value;
         }
-        _httpRequest.RequestUri = new System.Uri(_httpClient.BaseAddress + _httpRequest.RequestUri.ToString() + "?" + query.ToString());
+        _httpRequest.RequestUri = new System.Uri(_httpClient.BaseAddress + _httpRequest.RequestUri!.ToString() + "?" + query.ToString());
         return this;
     }
 
@@ -96,7 +98,7 @@ public class HttpRestClient : IRestClientService
         ArgumentNullException.ThrowIfNull(_httpRequest);
 
         _httpRequest.Headers.
-            Add("Authorization", "Bearer " + _apiClientConfiguration.Token);
+            Add("Authorization", "Bearer " + _apiToken);
 
         var response = _httpClient.Send(_httpRequest);
 
