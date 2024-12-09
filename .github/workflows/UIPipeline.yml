@@ -1,0 +1,36 @@
+name: .NET Build and Test
+
+on:
+  push:
+    branches: [ '008-CICD-Project' ]
+  pull_request:
+    branches: [ '008-CICD-Project' ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Restore dependencies UI Tests
+      run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject\TestProject.csproj"
+      shell: cmd
+
+    - name: Build UI Test project
+      run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject\TestProject.csproj"
+      shell: cmd
+    
+  test:
+    needs: build
+    runs-on: self-hosted
+
+    steps:
+    
+    - name: Test UI
+      run: dotnet test "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject\TestProject.csproj"
+      shell: cmd
+      env:
+        USER_NAME: ${{ secrets.USER_NAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
