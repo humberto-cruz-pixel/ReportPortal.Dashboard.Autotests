@@ -24,7 +24,7 @@ jobs:
       shell: cmd
       
     - name: Restore dependencies UI Tests
-      run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
+      run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject.csproj"
       shell: cmd
 
     - name: Build API Test project
@@ -32,7 +32,7 @@ jobs:
       shell: cmd
 
     - name: Build UI Test project
-      run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject"
+      run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject.csproj"
       shell: cmd
     
   test:
