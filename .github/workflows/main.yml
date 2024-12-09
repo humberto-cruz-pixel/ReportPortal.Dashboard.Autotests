@@ -17,20 +17,38 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '8.0.400'  # Specify your dotnet version
+        dotnet-version: '8.0.400'  # Ensure this version matches your project requirements
 
-    - name: Restore dependencies
+    - name: Restore dependencies API Tests
+      run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
+      shell: cmd
+      
+    - name: Restore dependencies UI Tests
       run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
       shell: cmd
 
-    - name: Build
+    - name: Build API Test project
       run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
       shell: cmd
 
-    - name: Test
+    - name: Build UI Test project
+      run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject"
+      shell: cmd
+    
+  test:
+    needs: build
+    runs-on: self-hosted
+
+    steps:
+    
+    - name: Test API
       run: dotnet test --no-build "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
       shell: cmd
       env:
         API_TOKEN: ${{ secrets.API_TOKEN }}
         USER_NAME: ${{ secrets.USER_NAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
+
+    - name: Test UI
+      run: dotnet test --no-build "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject"
+      shell: cmd
