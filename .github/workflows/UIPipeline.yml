@@ -1,4 +1,4 @@
-name: .NET Build and Test
+name: UI Tests
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
           Remove-Item -Path "C:\TestProject" -Recurse -Force
         }
         Move-Item -Path "temp-folder" -Destination "C:\TestProject"
-      shell: powershell
+      shell: cmd
       
     - name: Restore dependencies UI Tests
       run: dotnet restore "C:\TestProject\TestProject.csproj"
