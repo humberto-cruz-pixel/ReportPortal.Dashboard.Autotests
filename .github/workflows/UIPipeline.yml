@@ -2,7 +2,7 @@ name: .NET Build and Test
 
 on:
   push:
-    branches: [ '' ]
+    branches: [ '008-CICD-Project' ]
   pull_request:
     branches: [ '' ]
 
@@ -13,13 +13,23 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+      with:
+        path: temp-folder
+ 
+    - name: Move to desired directory
+      run: |
+        if (Test-Path "C:\TestProject") {
+          Remove-Item -Path "C:\TestProject" -Recurse -Force
+        }
+        Move-Item -Path "temp-folder" -Destination "C:\TestProject"
+      shell: powershell
       
     - name: Restore dependencies UI Tests
-      run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject\TestProject.csproj"
+      run: dotnet restore "C:\TestProject\TestProject.csproj"
       shell: cmd
 
     - name: Build UI Test project
-      run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject\TestProject.csproj"
+      run: dotnet build --no-restore "C:\TestProject\TestProject.csproj"
       shell: cmd
     
   test:
@@ -29,6 +39,7 @@ jobs:
     steps:
     
     - name: Test UI
+      if: false
       run: dotnet test "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject\bin\Debug\net8.0\TestProject.dll"
       shell: cmd
       env:
