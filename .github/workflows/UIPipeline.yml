@@ -9,28 +9,24 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-    
     steps:
+    
     - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0.x'
       
     - name: Restore dependencies UI Tests
       run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject\TestProject.csproj"
-      shell: cmd
 
     - name: Build UI Test project
       run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject\TestProject.csproj"
-      shell: cmd
-    
-  test:
-    needs: build
-    runs-on: self-hosted
-
-    steps:
     
     - name: Test UI
       run: dotnet test "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\TestProject\bin\Debug\net8.0\TestProject.dll"
-      shell: cmd
       env:
         USER_NAME: ${{ secrets.USER_NAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
