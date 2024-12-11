@@ -12,7 +12,7 @@ jobs:
     steps:
 
     - name: Set PowerShell Execution Policy
-      run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+      run: Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
       shell: powershell
     
     - name: Checkout code
