@@ -10,6 +10,10 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+
+    - name: Set PowerShell Execution Policy
+      run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+      shell: powershell
     
     - name: Checkout code
       uses: actions/checkout@v2
