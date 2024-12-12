@@ -114,7 +114,7 @@ public partial class DashboardPage
         }
     }
 
-    private IList<int> GetWidgetTransaleValues(IWebElement widgetContainer)
+    private List<int> GetWidgetTransaleValues(IWebElement widgetContainer)
     {
         ArgumentNullException.ThrowIfNull(widgetContainer);
         try

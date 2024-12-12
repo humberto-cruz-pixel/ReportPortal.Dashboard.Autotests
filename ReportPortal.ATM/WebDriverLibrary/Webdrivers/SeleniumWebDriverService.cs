@@ -39,7 +39,7 @@ public class SeleniumWebDriverService : IWebDriverService
         };
     }
 
-    private IWebDriver CreateChromeDriver()
+    private ChromeDriver CreateChromeDriver()
     {
         _ = new DriverManager().SetUpDriver(new ChromeConfig(), VersionResolveStrategy.MatchingBrowser);
 
@@ -74,7 +74,7 @@ public class SeleniumWebDriverService : IWebDriverService
         options.PageLoadStrategy = _webDriverConfiguration.PageLoadStrategy;
     }
 
-    private IWebDriver CreateEdgeDriver()
+    private EdgeDriver CreateEdgeDriver()
     {
         _ = new DriverManager().SetUpDriver(new EdgeConfig(), VersionResolveStrategy.MatchingBrowser);
 
@@ -99,7 +99,7 @@ public class SeleniumWebDriverService : IWebDriverService
         return options;
     }
 
-    private IWebDriver CreateFirefoxDriver()
+    private FirefoxDriver CreateFirefoxDriver()
     {
         _ = new DriverManager().SetUpDriver(new FirefoxConfig(), VersionResolveStrategy.MatchingBrowser);
 

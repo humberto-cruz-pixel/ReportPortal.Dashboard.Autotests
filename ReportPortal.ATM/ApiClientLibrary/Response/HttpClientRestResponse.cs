@@ -5,14 +5,9 @@ using System.Net.Http.Json;
 
 namespace RestClientLibrary.Response;
 
-public class HttpClientResponse<T> : IRestClientResponse<T>
+public class HttpClientResponse<T>(HttpResponseMessage response) : IRestClientResponse<T>
 {
-    private readonly HttpResponseMessage _response;
-
-    public HttpClientResponse(HttpResponseMessage response)
-    {
-        _response = response;
-    }
+    private readonly HttpResponseMessage _response = response;
 
     public string Content => _response.Content.ReadAsStringAsync().Result;
 
@@ -20,7 +15,9 @@ public class HttpClientResponse<T> : IRestClientResponse<T>
 
     public T GetData()
     {
-        T result = _response.Content.ReadFromJsonAsync<T>().GetAwaiter().GetResult();
+        T result = _response.Content.ReadFromJsonAsync<T>()
+            .GetAwaiter()
+            .GetResult()!;
         return result;
     }
 }

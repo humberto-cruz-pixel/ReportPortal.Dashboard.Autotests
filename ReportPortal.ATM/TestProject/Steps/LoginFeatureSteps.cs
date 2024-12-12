@@ -24,7 +24,7 @@ public class LoginFeatureSteps
 
         _enviroment = _scenarioContext["enviroment"] as Enviroment;
 
-        webDriverService!.NavigateTo(_enviroment.URL);
+        webDriverService!.NavigateTo(_enviroment!.URL);
         
         var loggerService = _scenarioContext["loggerService"] as ILoggerService;
 

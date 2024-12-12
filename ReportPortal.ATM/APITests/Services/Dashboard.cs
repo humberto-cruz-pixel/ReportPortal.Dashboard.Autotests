@@ -6,14 +6,9 @@ using System;
 
 namespace APITests.Services;
 
-public class Dashboard
+public class Dashboard(IRestClientService apiClientService)
 {
-    private readonly IRestClientService _apiClientService;
-
-    public Dashboard(IRestClientService apiClientService)
-    {
-        _apiClientService = apiClientService;
-    }
+    private readonly IRestClientService _apiClientService = apiClientService;
 
     public IRestClientResponse<Response> GetAllDashboards()
     {
@@ -22,7 +17,7 @@ public class Dashboard
         return response;
     }
 
-    public IRestClientResponse<ContentItem> GetDashboardById(string id)
+    public IRestClientResponse<ContentItem> GetDashboardById(string? id)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(id);
 
@@ -32,7 +27,7 @@ public class Dashboard
         return response;
     }
 
-    public IRestClientResponse<Response> CreateDashboard(string name, string description)
+    public IRestClientResponse<Response> CreateDashboard(string? name, string? description)
     {
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(description);
@@ -50,7 +45,7 @@ public class Dashboard
         return response;
     }
 
-    public IRestClientResponse<Response> EditDashboardAsync(string id, string name, string description)
+    public IRestClientResponse<Response> EditDashboardAsync(string? id, string? name, string? description)
     {
         ArgumentNullException.ThrowIfNull(name);
         ArgumentNullException.ThrowIfNull(description);
@@ -69,7 +64,7 @@ public class Dashboard
         return response;
     }
 
-    public IRestClientResponse<Response> DeleteDashboardAsync(string id)
+    public IRestClientResponse<Response> DeleteDashboardAsync(string? id)
     {
         ArgumentNullException.ThrowIfNull(id);
 
@@ -79,13 +74,13 @@ public class Dashboard
         return response;
     }
 
-    public IRestClientResponse<Response> AddWidgetAsync(int? dashboardId, int? widgetId, string widgetName)
+    public IRestClientResponse<Response> AddWidgetAsync(int? dashboardId, int? widgetId, string? widgetName)
     {
         ArgumentNullException.ThrowIfNull(dashboardId);
         ArgumentNullException.ThrowIfNull(widgetId);
         ArgumentNullException.ThrowIfNull(widgetName);
 
-        AddWidgetToDashboardBody widgetRequest = new AddWidgetToDashboardBody
+        AddWidgetToDashboardBody widgetRequest = new()
         {
             addWidget = new AddWidget
             {

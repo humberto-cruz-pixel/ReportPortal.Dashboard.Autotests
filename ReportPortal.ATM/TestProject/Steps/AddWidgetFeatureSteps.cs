@@ -17,8 +17,8 @@ public class AddWidgetFeatureSteps
     private readonly AddNewWidgetPage _addWidgetPage;
     private readonly DashboardPage _dashboardPage;
     private readonly ScenarioContext _scenarioContext;
-    private readonly IList<string> _widgetNames;
-    private readonly IList<string> _widgetTypes;
+    private readonly List<string> _widgetNames;
+    private readonly List<string> _widgetTypes;
     private int widgetCount;
 
     public AddWidgetFeatureSteps(ScenarioContext scenarioContext)
@@ -27,11 +27,11 @@ public class AddWidgetFeatureSteps
         var driverService = _scenarioContext["webDriverService"] as IWebDriverService;
         var loggerService = _scenarioContext["loggerService"] as ILoggerService;
 
-        _addWidgetPage = new AddNewWidgetPage(driverService, loggerService);
-        _dashboardPage = new DashboardPage(driverService, loggerService);
+        _addWidgetPage = new AddNewWidgetPage(driverService!, loggerService!);
+        _dashboardPage = new DashboardPage(driverService!, loggerService!);
 
-        _widgetNames = new List<string>();
-        _widgetTypes = new List<string>();
+        _widgetNames = [];
+        _widgetTypes = [];
     }
 
     [When(@"I click on add a widget")]
@@ -86,12 +86,12 @@ public class AddWidgetFeatureSteps
         {
             foreach (var widgetName in actualWidgetNames)
             {
-                Assert.That(_widgetNames.Contains(widgetName));
+                Assert.That(_widgetNames, Does.Contain(widgetName));
             }
 
             foreach (var widgetType in actualWidgetTypes)
             {
-                Assert.That(_widgetTypes.Contains(widgetType));
+                Assert.That(_widgetTypes, Does.Contain(widgetType));
             }
         });
         _dashboardPage.DeleteDashboard();

@@ -23,14 +23,16 @@ public class DeleteWidgetTests : BaseTest
         var deleteWidgetResult = dashboardService.DeleteWidgetAsync(dashboardId, widgetId);
 
         var Widgets = dashboardService.GetDashboardById(dashboardId.ToString())
-            .GetData().Widgets.Select(x => x.WidgetName).ToList();
+                                      .GetData().Widgets!
+                                      .Select(x => x.WidgetName)
+                                      .ToList();
 
         Assert.Multiple(() =>
         {
-            Assert.That(deleteWidgetResult.StatusCode.Equals(HttpStatusCode.OK)
+            Assert.That(deleteWidgetResult.StatusCode, Is.EqualTo(HttpStatusCode.OK)
                 , $"Expected succes status code, but found: {deleteWidgetResult.StatusCode}");
 
-            Assert.That(Widgets.Contains(widgetName), Is.False);
+            Assert.That(Widgets, Does.Not.Contain(widgetName));
 
         });
 

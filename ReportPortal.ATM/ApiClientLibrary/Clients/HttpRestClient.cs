@@ -9,22 +9,13 @@ using System.Text;
 using System.Text.Json;
 using System.Net.Http;
 
-namespace ApiClientLibrary.ApiClients;
-public class HttpRestClient : IRestClientService
+namespace RestClientLibrary.Clients;
+public class HttpRestClient(IApiClientConfiguration apiClientConfiguration) : IRestClientService
 {
-    private readonly HttpClient _httpClient;
-    private HttpRequestMessage _httpRequest;
-    private readonly string _baseUrl;
-    private readonly IApiClientConfiguration _apiClientConfiguration;
-    private readonly string _apiToken;
-
-    public HttpRestClient(IApiClientConfiguration apiClientConfiguration)
-    {
-        _apiClientConfiguration = apiClientConfiguration;
-        _httpClient = new HttpClient();
-        _baseUrl = _apiClientConfiguration.BaseURL + "/v1/" + _apiClientConfiguration.ProjectName;
-        _apiToken = Environment.GetEnvironmentVariable("API_TOKEN")!;
-    }
+    private readonly HttpClient _httpClient = new();
+    private HttpRequestMessage _httpRequest = new();
+    private readonly string _baseUrl = apiClientConfiguration.BaseURL + "/v1/" + apiClientConfiguration.ProjectName;
+    private readonly string _apiToken = Environment.GetEnvironmentVariable("API_TOKEN")!;
 
     public IRestClientService AddRequestParameters(Dictionary<string, string> parameters)
     {
@@ -35,7 +26,7 @@ public class HttpRestClient : IRestClientService
         {
             query[parameter.Key] = parameter.Value;
         }
-        _httpRequest.RequestUri = new System.Uri(_httpClient.BaseAddress + _httpRequest.RequestUri!.ToString() + "?" + query.ToString());
+        _httpRequest.RequestUri = new Uri(_httpClient.BaseAddress + _httpRequest.RequestUri!.ToString() + "?" + query.ToString());
         return this;
     }
 

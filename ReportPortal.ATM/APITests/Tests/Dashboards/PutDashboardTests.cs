@@ -18,8 +18,11 @@ public class PutDashboardTests : BaseTest
 
         Assert.Multiple(() =>
         {
-            Assert.That(response.StatusCode.Equals(HttpStatusCode.OK), $"Expected succesful status code, but found: {response.StatusCode}");
-            Assert.That(response.GetData().Message.Equals($"Dashboard with ID = '{id}' successfully updated"));
+            Assert.That(response.StatusCode, 
+                Is.EqualTo(HttpStatusCode.OK), $"Expected succesful status code, but found: {response.StatusCode}");
+
+            Assert.That(response.GetData().Message!, 
+                Is.EqualTo($"Dashboard with ID = '{id}' successfully updated"));
         });
 
         dashboardService.DeleteDashboardAsync(id);
@@ -32,10 +35,11 @@ public class PutDashboardTests : BaseTest
 
         Assert.Multiple(() =>
         {
-            Assert.That(response.StatusCode, Is
-                .EqualTo(HttpStatusCode.NotFound), $"Expected failed status code, but found: {response.StatusCode}");
-            Assert.That(response.GetData().Message
-                .Equals($"Dashboard with ID '-1' not found on project 'superadmin_personal'. Did you use correct Dashboard ID?"));
+            Assert.That(response.StatusCode, 
+                Is.EqualTo(HttpStatusCode.NotFound), $"Expected failed status code, but found: {response.StatusCode}");
+
+            Assert.That(response.GetData().Message!,
+                Is.EqualTo($"Dashboard with ID '-1' not found on project 'superadmin_personal'. Did you use correct Dashboard ID?"));
         });
     }
 }

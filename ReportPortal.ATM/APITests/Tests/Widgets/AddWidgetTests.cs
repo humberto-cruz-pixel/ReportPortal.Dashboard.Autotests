@@ -18,16 +18,18 @@ public class AddWidgetTests : BaseTest
         var widgetId = widgetService.AddWidget(widgetName)
             .GetData().Id;
 
-        var addWidgetResult = dashboardService.AddWidgetAsync(dashboardId, widgetId, "Name");
+        var addWidgetResult = dashboardService.AddWidgetAsync((int)dashboardId!, widgetId, "Name");
 
-        Assert.That(addWidgetResult.StatusCode
-            .Equals(HttpStatusCode.OK), $"Expected succesful status code, but found: {addWidgetResult.StatusCode}");
+        Assert.That(addWidgetResult.StatusCode,
+            Is.EqualTo(HttpStatusCode.OK), $"Expected succesful status code, but found: {addWidgetResult.StatusCode}");
 
-        var Widgets = dashboardService.GetDashboardById(dashboardId.ToString())
-            .GetData().Widgets.Select(x => x.WidgetName).ToList();
+        var Widgets = dashboardService.GetDashboardById(dashboardId.ToString()!)
+                                      .GetData().Widgets!
+                                      .Select(x => x.WidgetName)
+                                      .ToList()!;
 
-        Assert.That(Widgets.Contains(widgetName));
+        Assert.That(Widgets, Does.Contain(widgetName));
 
-        dashboardService.DeleteDashboardAsync(dashboardId.ToString());
+        dashboardService.DeleteDashboardAsync(dashboardId.ToString()!);
     }
 }

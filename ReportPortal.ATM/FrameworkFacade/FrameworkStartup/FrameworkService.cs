@@ -1,5 +1,4 @@
-﻿using ApiClientLibrary.Configurations;
-using ApiClientLibrary.Interfaces.Configurations;
+﻿using ApiClientLibrary.Interfaces.Configurations;
 using ConfigurationLibrary.Configuration;
 using ConfigurationLibrary.Interfaces.Configuration;
 using LoggerLibrary.Factories;
@@ -7,6 +6,7 @@ using LoggerLibrary.Interfaces.Factories;
 using Microsoft.Extensions.DependencyInjection;
 using ReporterLibrary.Interfaces.Reporters;
 using ReporterLibrary.Reporters;
+using RestClientLibrary.Configurations;
 using RestClientLibrary.Factories;
 using RestClientLibrary.Interfaces.Factories;
 using System;

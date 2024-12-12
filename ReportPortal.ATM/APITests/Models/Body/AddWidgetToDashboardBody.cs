@@ -3,7 +3,7 @@
 namespace APITests.Models.Body;
 
 public class AddWidgetToDashboardBody
-{
+{   
     [JsonPropertyName("addWidget")]
-    public AddWidget addWidget { get; set; }
+    public AddWidget ?addWidget { get; set; }
 }

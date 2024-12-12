@@ -24,7 +24,7 @@ public class BaseTest
         frameworkScope = new FrameworkService(Directory.GetCurrentDirectory(), "appsettings.json")
         .GetServiceProvider().CreateScope();
 
-        //DotNetEnv.Env.Load(Directory.GetCurrentDirectory() + "\\Enviroment.env");
+        DotNetEnv.Env.Load(Directory.GetCurrentDirectory() + "\\Enviroment.env");
 
         var apiClientConfiguration = frameworkScope.ServiceProvider.GetRequiredService<IApiClientConfiguration>();
 

@@ -3,12 +3,12 @@ using ConfigurationLibrary.Interfaces.Configuration;
 using Microsoft.Extensions.Configuration;
 using System;
 
-namespace ApiClientLibrary.Configurations;
+namespace RestClientLibrary.Configurations;
 
 public class ApiClientConfiguration : IApiClientConfiguration
 {
-    public string BaseURL { get; set; }
-    public string ProjectName { get; set; }
+    public string BaseURL { get; set; } = string.Empty;
+    public string ProjectName { get; set; } = string.Empty;
 
     public ApiClientConfiguration(IConfigurationService configurationService)
     {

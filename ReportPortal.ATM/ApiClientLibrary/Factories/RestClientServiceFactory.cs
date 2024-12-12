@@ -1,5 +1,5 @@
-﻿using ApiClientLibrary.ApiClients;
-using ApiClientLibrary.Interfaces.Configurations;
+﻿using ApiClientLibrary.Interfaces.Configurations;
+using RestClientLibrary.Clients;
 using RestClientLibrary.Enums;
 using RestClientLibrary.Interfaces.Factories;
 using System;
@@ -10,16 +10,11 @@ public class RestClientServiceFactory : IRestClientServiceFactory
 {
     public Interfaces.Clients.IRestClientService Create(RestClientServiceType restClientServiceType, IApiClientConfiguration apiClientConfiguration)
     {
-        switch (restClientServiceType)
+        return restClientServiceType switch
         {
-            case RestClientServiceType.RestSharp:
-                return new RestSahrpClient(apiClientConfiguration);
-
-            case RestClientServiceType.HttpClient:
-                return new HttpRestClient(apiClientConfiguration);
-
-            default:
-                throw new NotImplementedException();
-        }
+            RestClientServiceType.RestSharp => new RestSahrpClient(apiClientConfiguration),
+            RestClientServiceType.HttpClient => new HttpRestClient(apiClientConfiguration),
+            _ => throw new NotImplementedException(),
+        };
     }
 }

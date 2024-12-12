@@ -17,22 +17,24 @@ public class PostDashboardTests : BaseTest
 
         Assert.Multiple(() =>
         {
-            Assert.That(response.StatusCode.Equals(HttpStatusCode.Created), $"Expected {HttpStatusCode.Created} status code, but found: {response.StatusCode}");
+            Assert.That(response.StatusCode, 
+                Is.EqualTo(HttpStatusCode.Created), $"Expected {HttpStatusCode.Created} status code, but found: {response.StatusCode}");
+
             Assert.That(id, Is.Not.Null, "Id should not be empty");
 
         });
 
         var responseGetD = dashboardService.GetAllDashboards().GetData();
 
-        var Ids = responseGetD.Content.Select(x => x.Id).ToList();
-        var names = responseGetD.Content.Select(x => x.Name).ToList();
-        var descriptions = responseGetD.Content.Select(x => x.Description).ToList();
+        var Ids = responseGetD.Content!.Select(x => x.Id).ToList();
+        var names = responseGetD.Content!.Select(x => x.Name).ToList();
+        var descriptions = responseGetD.Content!.Select(x => x.Description).ToList();
 
         Assert.Multiple(() =>
         {
-            Assert.That(Ids.Contains(id));
-            Assert.That(names.Contains(name));
-            Assert.That(descriptions.Contains(description));
+            Assert.That(Ids,Does.Contain(id));
+            Assert.That(names, Does.Contain(name));
+            Assert.That(descriptions, Does.Contain(description));
         });
         dashboardService.DeleteDashboardAsync(id.ToString());
     }
@@ -46,12 +48,11 @@ public class PostDashboardTests : BaseTest
 
         Assert.Multiple(() =>
         {
-            Assert.That(response.StatusCode, Is
-                .EqualTo(HttpStatusCode.BadRequest), $"Expected failed status code, but found: {response.StatusCode}");
+            Assert.That(response.StatusCode, 
+                Is.EqualTo(HttpStatusCode.BadRequest), $"Expected failed status code, but found: {response.StatusCode}");
 
-            Assert.That(response.GetData().Message, Is.
-                EqualTo("Incorrect Request. [Field 'name' should not contain only white spaces and shouldn't be empty. Field 'name' should have size from '3' to '128'.] "));
-
+            Assert.That(response.GetData().Message, 
+                Is.EqualTo("Incorrect Request. [Field 'name' should not contain only white spaces and shouldn't be empty. Field 'name' should have size from '3' to '128'.] "));
         });
     }
 }
