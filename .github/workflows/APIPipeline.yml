@@ -35,26 +35,9 @@ jobs:
       env:
         API_TOKEN: ${{ secrets.API_TOKEN }}
       
-  Authenticate:
-    needs: test
-    runs-on: windows-latest
-    steps:
-    
-     - name: Authenticate with GitHub App
-       uses: tibdex/github-app-token@v1
-       id: auth
-       with:
-         app_id: ${{ secrets.CICD_REPORTER_APP_ID}}
-         private_key: ${{ secrets.CICD_REPORTER_APP_KEY }}
-         
-     - name: Use GitHub App token
-       run: |
-         echo "Using GitHub App token for subsequent steps"
-         env:
-          GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
           
   Publish_Results:
-    needs: Authenticate
+    needs: test
     runs-on: self-hosted
     steps:
       - name: Upload Test Results
@@ -71,6 +54,7 @@ jobs:
           name: 'API Tests'
           path: '*.trx'
           reporter: 'dotnet-trx'
+          token: ${{ secrets.CICD_REPORTER_APP_KEY }}
 
   Send_Notification:
     if: always()
