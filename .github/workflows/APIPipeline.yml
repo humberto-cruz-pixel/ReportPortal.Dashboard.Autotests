@@ -30,28 +30,33 @@ jobs:
     steps:
     
     - name: Test API
-      run: dotnet test "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj" --logger "trx;LogFilePath=test-results.xml"
+      run: dotnet test "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj" --logger "trx;LogFileName=test-results.trx"
       shell: cmd
       env:
         API_TOKEN: ${{ secrets.API_TOKEN }}
+      
         
-    - name: Upload Test Results
-      uses: actions/upload-artifact@v4
-      with:
-        name: Test Results
-        path: C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\test-results.xml
+  Publish_Results:
+    needs: test
+    runs-on: self-hosted
+    steps:
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test Results
+          path: C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\TestResults\test-results.trx
 
-    - name: Publish Test Report
-      uses: dorny/test-reporter@v1
-      if: always()
-      with:
-        name: 'Test Results'
-        path: C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\test-results.xml
-        reporter: 'dotnet-nunit'
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: 'Test Results'
+          path: C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\TestResults\test-results.trx
+          reporter: 'dotnet-trx'
 
   Send_Notification:
     if: always()
-    needs: test
+    needs: Publish_Results
     name: Send Notification
     runs-on: ubuntu-latest
     steps:
