@@ -51,7 +51,7 @@ jobs:
         if: always()
         with:
           name: 'Test Results'
-          path: C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\TestResults\test-results.trx
+          path: TestResults\test-results.trx
           reporter: 'dotnet-trx'
 
   Send_Notification:
