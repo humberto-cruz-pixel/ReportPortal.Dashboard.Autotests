@@ -47,9 +47,10 @@ jobs:
       with:
         name: 'Test Results'
         path: C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\test-results.xml
-        reporter: 'nunit'
+        reporter: 'dotnet-nunit'
 
   Send_Notification:
+    if: always()
     needs: test
     name: Send Notification
     runs-on: ubuntu-latest
