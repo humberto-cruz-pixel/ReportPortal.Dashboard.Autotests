@@ -32,20 +32,19 @@ jobs:
       shell: cmd
       env:
         API_TOKEN: ${{ secrets.API_TOKEN }}
-        
+
   send-notification:
-    needs: test
+    needs: test 
     runs-on: self-hosted
+    if: always()
     steps:
-      - name: Send notification
-        uses: neonidian/teams-notify-build-status@v3
+      - name: Send notification to Teams
+        uses: anatolykopyl/send-message-to-teams@v1
         with:
-          webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL_1 }}
-          title: Unit Tests
-          titleBackgroundColor: ${{ steps.test.outcome }} 
-          status: ${{ steps.test.outcome }}   
-          Message:  Tests have been run
-        env:
-           SHOULD_DISPLAY_ACTOR_LABEL: 'true'
-           SHOULD_DISPLAY_VIEW_RUN_BUTTON: 'true'
-           SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: 'true'
+          webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL_1 }}
+          title: 'Test Results for ${{ github.workflow }}'
+          text: |
+            Test run completed with status: ${{ job.status }}
+            - Commit: ${{ github.sha }}
+            - Branch: ${{ github.ref }}
+
