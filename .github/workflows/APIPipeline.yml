@@ -54,7 +54,7 @@ jobs:
           name: 'API Tests'
           path: '*.trx'
           reporter: 'dotnet-trx'
-          token: ${{ secrets.CICD_REPORTER_APP_KEY }}
+          token: ${{ secrets.CICD_TOKEN }}
 
   Send_Notification:
     if: always()
