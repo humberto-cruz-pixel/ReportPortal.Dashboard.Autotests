@@ -45,6 +45,19 @@ jobs:
         with:
           name: Test Results
           path: C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\TestResults\test-results.trx
+      
+      - name: Authenticate with GitHub App
+        uses: tibdex/github-app-token@v1
+        id: auth
+        with:
+          app_id: ${{ secrets.CICD_REPORTER_APP_ID}}
+          private_key: ${{ secrets.CICD_REPORTER_APP_KEY }}
+
+      - name: Use GitHub App token
+        run: |
+            echo "Using GitHub App token for subsequent steps"
+        env:
+          GITHUB_TOKEN: ${{ steps.auth.outputs.token }}
           
       - name: Publish Test Report
         uses: dorny/test-reporter@v1
@@ -55,6 +68,16 @@ jobs:
           path: '*.trx'
           reporter: 'dotnet-trx'
           token: ${{ secrets.CICD_TOKEN }}
+
+      
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          artifact: 'Test Results'
+          name: 'API Tests'
+          path: '*.trx'
+          reporter: 'dotnet-trx'
 
   Send_Notification:
     if: always()
