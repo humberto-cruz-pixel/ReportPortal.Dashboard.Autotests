@@ -38,7 +38,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Send notification
-        uses: neohelden/teams-notify-action@v2
+        uses: neonidian/teams-notify-build-status@v3
         with:
           webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL_1 }}
           title: Unit Tests
