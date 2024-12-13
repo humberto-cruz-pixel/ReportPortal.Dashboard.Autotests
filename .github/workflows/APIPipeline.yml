@@ -51,7 +51,7 @@ jobs:
           gh api octocat
   
   Publish_Results:
-    needs: test
+    needs: Authenticate
     runs-on: self-hosted
     steps:
       - name: Upload Test Results
