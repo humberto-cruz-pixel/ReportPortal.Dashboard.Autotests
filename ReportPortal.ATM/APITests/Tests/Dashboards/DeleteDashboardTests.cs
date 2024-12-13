@@ -15,7 +15,11 @@ public class DeleteDashboardTests : BaseTest
         var id = dashboardService.CreateDashboard(name, "")
             .GetData().Id;
 
+        loggerService.LogInformation($"Created dashboard: {name}");
+
         var response = dashboardService.DeleteDashboardAsync(id.ToString());
+
+        loggerService.LogInformation($"Deleted dashboard: {name} succesfully");
 
         var dashboardsIds = dashboardService.GetAllDashboards()
             .GetData().Content!

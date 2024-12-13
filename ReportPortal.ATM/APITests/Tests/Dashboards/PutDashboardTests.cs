@@ -16,6 +16,8 @@ public class PutDashboardTests : BaseTest
 
         var response = dashboardService.EditDashboardAsync(id, name, description);
 
+        loggerService.LogInformation($"Dashboard: {name} was successfully created");
+
         Assert.Multiple(() =>
         {
             Assert.That(response.StatusCode, 
@@ -24,6 +26,8 @@ public class PutDashboardTests : BaseTest
             Assert.That(response.GetData().Message!, 
                 Is.EqualTo($"Dashboard with ID = '{id}' successfully updated"));
         });
+
+        loggerService.LogInformation($"Dashboard was successfully edited");
 
         dashboardService.DeleteDashboardAsync(id);
     }

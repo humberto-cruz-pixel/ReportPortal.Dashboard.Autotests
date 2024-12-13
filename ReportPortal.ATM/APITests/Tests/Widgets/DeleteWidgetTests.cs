@@ -15,10 +15,16 @@ public class DeleteWidgetTests : BaseTest
             .GetData().Id;
         var widgetName = Guid.NewGuid().ToString();
 
+        loggerService.LogInformation($"Dashboard: {name} was successfully created");
+        loggerService.LogInformation($"Adding widget: {widgetName} to dashboard: {name}");
+
         var widgetId = widgetService.AddWidget(widgetName)
             .GetData().Id;
 
         _ = dashboardService.AddWidgetAsync(dashboardId, widgetId, "Name");
+
+        loggerService.LogInformation($"Widget: {widgetName} was added to dashboard: {name}");
+        loggerService.LogInformation($"Trying to delete widget: {widgetName} from dashboard: {name}...");
 
         var deleteWidgetResult = dashboardService.DeleteWidgetAsync(dashboardId, widgetId);
 
@@ -35,6 +41,8 @@ public class DeleteWidgetTests : BaseTest
             Assert.That(Widgets, Does.Not.Contain(widgetName));
 
         });
+
+        loggerService.LogInformation($"Widget: {widgetName} was deleted from dashboard: {name}");
 
         dashboardService.DeleteDashboardAsync(dashboardId.ToString());
     }

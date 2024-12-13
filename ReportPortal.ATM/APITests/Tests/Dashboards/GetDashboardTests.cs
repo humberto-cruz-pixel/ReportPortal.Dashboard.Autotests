@@ -1,6 +1,7 @@
 ﻿using APITests.Services;
 using System.Net;
 using System;
+using System.Xml.Linq;
 
 namespace APITests.Tests.Dashboards;
 
@@ -10,7 +11,10 @@ public class GetDashboardTests : BaseTest
     [Test]
     public void Should_GetAllDashboards_usingHttpClient()
     {
+        loggerService.LogInformation("Trying to get all dashboards");
+
         var response = new Dashboard(httpRestClientService).GetAllDashboards();
+
         var data = response.GetData();
 
         Assert.Multiple(() =>
@@ -21,11 +25,15 @@ public class GetDashboardTests : BaseTest
             Assert.That(data.Page.TotalElements,Is.GreaterThanOrEqualTo(0), "Total elements can't be less than 0");
             Assert.That(data.Page.TotalPages,Is.GreaterThanOrEqualTo(0), "Total pages can't be less than 0");
         });
+
+        loggerService.LogInformation("Got all dashboards");
     }
 
     [Test]
     public void Should_GetAllDashboards()
     {
+        loggerService.LogInformation("Trying to get all dashboards");
+
         var response = dashboardService.GetAllDashboards();
         var data = response.GetData();
 
@@ -37,6 +45,8 @@ public class GetDashboardTests : BaseTest
             Assert.That(data.Page.TotalElements, Is.GreaterThanOrEqualTo(0), "Total elements can't be less than 0");
             Assert.That(data.Page.TotalPages, Is.GreaterThanOrEqualTo(0), "Total pages can't be less than 0");
         });
+
+        loggerService.LogInformation("Got all dashboards");
     }
 
     [Test]
@@ -47,6 +57,8 @@ public class GetDashboardTests : BaseTest
         var id = dashboardService.CreateDashboard(name, "test")
             .GetData().Id.ToString();
 
+        loggerService.LogInformation($"Created dashboard: {name}");
+
         var response = dashboardService.GetDashboardById(id);
 
         Assert.Multiple(() =>
@@ -56,6 +68,8 @@ public class GetDashboardTests : BaseTest
 
             Assert.That(response.GetData().Name!, Is.EqualTo(name));
         });
+
+        loggerService.LogInformation($"Created dashboard: {name} was found successfully using ID : {id}");
 
         dashboardService.DeleteDashboardAsync(id);
     }
