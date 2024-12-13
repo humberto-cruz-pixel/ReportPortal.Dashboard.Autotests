@@ -67,17 +67,6 @@ jobs:
           name: 'API Tests'
           path: '*.trx'
           reporter: 'dotnet-trx'
-          token: ${{ secrets.CICD_TOKEN }}
-
-      
-      - name: Publish Test Report
-        uses: dorny/test-reporter@v1
-        if: always()
-        with:
-          artifact: 'Test Results'
-          name: 'API Tests'
-          path: '*.trx'
-          reporter: 'dotnet-trx'
 
   Send_Notification:
     if: always()
