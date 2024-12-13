@@ -2,9 +2,9 @@ name: API tests
 
 on:
   push:
-    branches: [ '008-CICD-Project' ]
+    branches: [ '009-SonarQube' ]
   pull_request:
-    branches: [ '008-CICD-Project' ]
+    branches: [ '009-SonarQube' ]
 
 jobs:
   build:
@@ -21,11 +21,10 @@ jobs:
     - name: Build API Test project
       run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
       shell: cmd
-
+  
   test:
     needs: build
     runs-on: self-hosted
-
     steps:
     
     - name: Test API
@@ -33,3 +32,20 @@ jobs:
       shell: cmd
       env:
         API_TOKEN: ${{ secrets.API_TOKEN }}
+        
+  send-notification:
+    needs: test
+    runs-on: self-hosted
+    steps:
+      - name: Send notification
+        uses: neohelden/teams-notify-action@v2
+        with:
+          webhookUrl: ${{ secrets.TEAMS_WEBHOOK_URL_1 }}
+          title: Unit Tests
+          titleBackgroundColor: ${{ steps.test.outcome }} 
+          status: ${{ steps.test.outcome }}   
+          Message:  Tests have been run
+        env:
+           SHOULD_DISPLAY_ACTOR_LABEL: 'true'
+           SHOULD_DISPLAY_VIEW_RUN_BUTTON: 'true'
+           SHOULD_DISPLAY_VIEW_COMMIT_BUTTON: 'true'
