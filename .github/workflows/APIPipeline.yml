@@ -44,3 +44,6 @@ jobs:
         if: always()
         with:
           webhook_url: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL_1 }}
+          needs: ${{ toJson(needs) }}
+          job: ${{ toJson(job) }}
+          steps: ${{ toJson(steps) }}
