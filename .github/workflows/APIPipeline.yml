@@ -1,6 +1,8 @@
 name: API tests
 
 on:
+  schedule:
+    - cron: '0 12 * * *'
   push:
     branches: [ '009-SonarQube' ]
   pull_request:
