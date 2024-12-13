@@ -34,17 +34,17 @@ jobs:
         API_TOKEN: ${{ secrets.API_TOKEN }}
 
   send-notification:
-    needs: test 
+    needs: test
     runs-on: self-hosted
-    if: always()
+    if: always() # This ensures the step runs regardless of previous job success/failure
     steps:
       - name: Send notification to Teams
-        uses: anatolykopyl/send-message-to-teams@v1
+        uses: innovimaxx/teams-card@v1
         with:
-          webhook-url: ${{ secrets.TEAMS_WEBHOOK_URL_1 }}
-          title: 'Test Results for ${{ github.workflow }}'
-          text: |
-            Test run completed with status: ${{ job.status }}
+          url: ${{ secrets.TEAMS_WEBHOOK_URL_1 }}
+          card_title: 'Test Results for ${{ github.workflow }}'
+          card_text: |
+            Here are the results for the latest run:
+            - Status: ${{ job.status }}
             - Commit: ${{ github.sha }}
             - Branch: ${{ github.ref }}
-
