@@ -11,31 +11,45 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Restore dependencies API Tests
-      run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
-      shell: cmd
-
-    - name: Build API Test project
-      run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
-      shell: cmd
+      - name: Restore dependencies API Tests
+        run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
+        shell: cmd
+        
+      - name: Build API Test project
+        run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
+        shell: cmd
   
   test:
     needs: build
     runs-on: self-hosted
     steps:
-    
-    - name: Test API
-      run: dotnet test "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj" --logger "trx;LogFileName=test-results.trx"
-      shell: cmd
-      env:
-        API_TOKEN: ${{ secrets.API_TOKEN }}
+      - name: Test API
+        run: dotnet test "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj" --logger "trx;LogFileName=test-results.trx"
+        shell: cmd
+        env:
+          API_TOKEN: ${{ secrets.API_TOKEN }}
       
-          
+  Authenticate:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.CICD_REPORTER_APP_ID }}
+          private-key: ${{ secrets.CICD_REPORTER_APP_KEY }}
+
+      - name: Use the token
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          gh api octocat
+  
   Publish_Results:
     needs: test
     runs-on: self-hosted
@@ -54,7 +68,6 @@ jobs:
           name: 'API Tests'
           path: '*.trx'
           reporter: 'dotnet-trx'
-          token: ${{ secrets.CICD_TOKEN }}
 
   Send_Notification:
     if: always()
