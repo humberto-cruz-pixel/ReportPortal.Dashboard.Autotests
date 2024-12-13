@@ -36,6 +36,8 @@ jobs:
   Authenticate:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.generate-token.outputs.token }}
     steps:
       - name: Generate a token
         id: generate-token
@@ -43,12 +45,6 @@ jobs:
         with:
           app-id: ${{ secrets.CICD_REPORTER_APP_ID }}
           private-key: ${{ secrets.CICD_REPORTER_APP_KEY }}
-
-      - name: Use the token
-        env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-        run: |
-          gh api octocat
   
   Publish_Results:
     needs: Authenticate
@@ -68,6 +64,7 @@ jobs:
           name: 'API Tests'
           path: '*.trx'
           reporter: 'dotnet-trx'
+          token: needs.Authenticate.outputs.token
 
   Send_Notification:
     if: always()
