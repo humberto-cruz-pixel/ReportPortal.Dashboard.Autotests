@@ -32,24 +32,19 @@ jobs:
         shell: cmd
         env:
           API_TOKEN: ${{ secrets.API_TOKEN }}
-      
-  Authenticate:
+
+  Publish_Results:
     needs: test
     runs-on: self-hosted
-    outputs:
-      token: ${{ steps.generate-token.outputs.token }}
     steps:
+
       - name: Generate a token
         id: generate-token
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.CICD_REPORTER_APP_ID }}
           private-key: ${{ secrets.CICD_REPORTER_APP_KEY }}
-  
-  Publish_Results:
-    needs: Authenticate
-    runs-on: self-hosted
-    steps:
+          
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
         with:
@@ -64,7 +59,7 @@ jobs:
           name: 'API Tests'
           path: '*.trx'
           reporter: 'dotnet-trx'
-          token: needs.Authenticate.outputs.token
+          token: steps.generate-token.outputs.token
 
   Send_Notification:
     if: always()
