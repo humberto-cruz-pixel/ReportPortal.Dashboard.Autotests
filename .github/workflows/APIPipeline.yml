@@ -26,6 +26,7 @@ jobs:
   test:
     needs: build
     runs-on: self-hosted
+    id: testApi
     steps:
       - name: Test API
         run: dotnet test "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj" --logger "trx;LogFileName=test-results.trx"
@@ -73,6 +74,3 @@ jobs:
         if: always()
         with:
           webhook_url: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL_1 }}
-          job: ${{ toJson(job.test) }}
-          steps: ${{ toJson(steps) }}
-          title: Pipeline run ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
