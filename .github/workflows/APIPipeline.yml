@@ -67,10 +67,20 @@ jobs:
     name: Send Notification
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Test Results for ${{ github.workflow }} 
+      - uses: actions/checkout@v2
+      - name: Determine Job Status
+        id: job_status
+        run: |
+          echo "TEST_STATUS=${{ needs.test.result }}" >> $GITHUB_ENV
+          if [ ${{ needs.test.result }} == 'success' ]; then
+            echo "::set-output name=status::passed"
+            echo "::set-output name=icon_url::https://i.imgur.com/3g7nmJC.png"  # Green check icon
+          else
+            echo "::set-output name=status::failed"
+            echo "::set-output name=icon_url::https://i.imgur.com/Ss4nMJf.png"  # Red cross icon
+          fi
+      - name: Send Results to Microsoft Teams
         uses: skitionek/notify-microsoft-teams@master
-        if: always()
         with:
           webhook_url: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL_1 }}
           raw: >-
@@ -87,10 +97,29 @@ jobs:
                             [
                                 {
                                     "type": "TextBlock",
-                                    "text": "Test title text"
+                                    "text": "**GitHub Action Test Results**",
+                                    "weight": "bolder",
+                                    "size": "medium"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Status: ${{ steps.job_status.outputs.status }}"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Changelog: ${{ env.CHANGELOG }}"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Action Run: [View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+                                },
+                                {
+                                    "type": "Image",
+                                    "url": "${{ steps.job_status.outputs.icon_url }}",
+                                    "size": "small"
                                 }
                             ]
-                        }
+                      }  
                     }
                 ]
             }
