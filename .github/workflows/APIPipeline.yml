@@ -105,17 +105,17 @@ jobs:
                                     "text": "Status: ${{ steps.job_status.outputs.status }}"
                                 },
                                 {
+                                    "type": "Image",
+                                    "url": "${{ steps.job_status.outputs.icon_url }}",
+                                    "size": "small"
+                                },
+                                {
                                     "type": "TextBlock",
                                     "text": "Last Commit: [View Commit](${{ github.event.head_commit.url }})"
                                 },
                                 {
                                     "type": "TextBlock",
                                     "text": "Action Run: [View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
-                                },
-                                {
-                                    "type": "Image",
-                                    "url": "${{ steps.job_status.outputs.icon_url }}",
-                                    "size": "small"
                                 }
                             ]
                         }
