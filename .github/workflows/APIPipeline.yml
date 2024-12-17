@@ -68,11 +68,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Test Results for ${{ github.workflow }}
+      - name: Test Results for ${{ github.workflow }} ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         uses: skitionek/notify-microsoft-teams@master
         if: always()
         with:
           webhook_url: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL_1 }}
-          needs: ${{ toJson(needs) }}
           job: ${{ toJson(job) }}
           steps: ${{ toJson(steps) }}
