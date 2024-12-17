@@ -73,7 +73,7 @@ jobs:
         run: |
           if [ "${{ needs.test.result }}" == 'success' ]; then
             echo "::set-output name=status::passed"
-            echo "::set-output name=icon_url::https://upload.wikimedia.org/wikipedia/commons/3/3b/Eo_circle_green_checkmark.svg"  # Green check icon
+            echo "::set-output name=icon_url::https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Check-Logo.png/640px-Check-Logo.png"  # Green check icon
           else
             echo "::set-output name=status::failed"
             echo "::set-output name=icon_url::https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/X_Icon_or_Close_Icon.svg/640px-X_Icon_or_Close_Icon.svg.png"  # Red cross icon
