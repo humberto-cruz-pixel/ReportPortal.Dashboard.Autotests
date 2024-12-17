@@ -44,6 +44,8 @@ public class PutDashboardTests : BaseTest
 
             Assert.That(response.GetData().Message!,
                 Is.EqualTo($"Dashboard with ID '-1' not found on project 'superadmin_personal'. Did you use correct Dashboard ID?"));
+
+            Assert.Fail();
         });
     }
 }
