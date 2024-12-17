@@ -63,7 +63,7 @@ jobs:
 
   Send_Notification:
     if: always()
-    needs: Publish_Results
+    needs: [Publish_Results,test] 
     name: Send Notification
     runs-on: ubuntu-latest
     steps:
@@ -71,7 +71,7 @@ jobs:
       - name: Determine Job Status
         id: job_status
         run: |
-          if ${{ success() }}; then
+          if [ "${{ needs.test.result }}" == 'success' ]; then
             echo "::set-output name=status::passed"
             echo "::set-output name=icon_url::https://upload.wikimedia.org/wikipedia/commons/3/3b/Eo_circle_green_checkmark.svg"  # Green check icon
           else
