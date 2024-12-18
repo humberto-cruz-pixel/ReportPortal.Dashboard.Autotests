@@ -34,6 +34,7 @@ jobs:
           API_TOKEN: ${{ secrets.API_TOKEN }}
 
   Publish_Results:
+    if: always()
     needs: test
     runs-on: self-hosted
     steps:
