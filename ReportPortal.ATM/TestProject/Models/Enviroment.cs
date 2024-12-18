@@ -6,9 +6,7 @@ namespace TestProject.Models;
 
 public class Enviroment
 {
-    public string UserName { get; set; }
-    public string Password { get; set; }
-    public string URL { get; set; }
+    public string URL { get; set; } = string.Empty;
 
     public Enviroment(IConfigurationService configurationService)
     {

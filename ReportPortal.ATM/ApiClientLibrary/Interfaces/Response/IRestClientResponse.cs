@@ -2,7 +2,7 @@
 
 namespace RestClientLibrary.Interfaces.Response;
 
-public interface IRestClientResponse<T>
+public interface IRestClientResponse<out T>
 {
     HttpStatusCode StatusCode { get; }
     string Content { get; }

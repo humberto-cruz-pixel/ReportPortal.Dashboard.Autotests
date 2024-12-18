@@ -6,7 +6,7 @@ using RestSharp;
 using System;
 using System.Collections.Generic;
 
-namespace ApiClientLibrary.ApiClients;
+namespace RestClientLibrary.Clients;
 
 public class RestSahrpClient : IRestClientService
 {
@@ -19,8 +19,11 @@ public class RestSahrpClient : IRestClientService
     {
         _apiClientConfiguration = apiClientConfiguration;
         ConfigureApiClient();
-        _restClient = new RestClient(_restClientOptions);
-        _restClient.AddDefaultHeader("Authorization", "Bearer " + _apiClientConfiguration.Token);
+        _restClient = new RestClient(_restClientOptions!);
+        var _apiToken = Environment.GetEnvironmentVariable("API_TOKEN")!;
+        _restClient.AddDefaultHeader("Authorization", "Bearer " + _apiToken);
+        _restRequest = new RestRequest();
+        _restClientOptions = new RestClientOptions();
     }
 
     public IRestClientService CreateGetRequest(string resource)
@@ -96,7 +99,7 @@ public class RestSahrpClient : IRestClientService
 
     private void ConfigureApiClient()
     {
-        var baseURL = _apiClientConfiguration.BaseURL + "/v1/" + _apiClientConfiguration.ProjectName;
+        var baseURL = _apiClientConfiguration.BaseURL + _apiClientConfiguration.ProjectName;
         _restClientOptions = new RestClientOptions(baseURL);
     }
 }

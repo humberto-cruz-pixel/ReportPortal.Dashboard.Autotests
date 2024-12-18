@@ -24,10 +24,10 @@ public class CreateAndEditDashboardFeatureSteps
         var driverService = _scenarioContext["webDriverService"] as IWebDriverService;
         var loggerService = _scenarioContext["loggerService"] as ILoggerService;
 
-        _allDashboardsPage = new AllDashboardsPage(driverService, loggerService);
-        _addNewDashboardPage = new AddNewDashboardPage(driverService, loggerService);
-        _navBarPage = new NavBarPage(driverService, loggerService);
-        _dashboardPage = new DashboardPage(driverService, loggerService);
+        _allDashboardsPage = new AllDashboardsPage(driverService!, loggerService!);
+        _addNewDashboardPage = new AddNewDashboardPage(driverService!, loggerService!);
+        _navBarPage = new NavBarPage(driverService!, loggerService!);
+        _dashboardPage = new DashboardPage(driverService!, loggerService!);
     }
 
     [Given(@"I navigate to all dashboards page")]
@@ -63,10 +63,13 @@ public class CreateAndEditDashboardFeatureSteps
         var dashboardNames=_allDashboardsPage.GetDashboardNames();
         var dashboardDescriptions = _allDashboardsPage.GetDashboardsDescriptions();
 
-        Assert.That(dashboardNames.Contains(name));
-        Assert.That(dashboardDescriptions.Contains(description));
+        Assert.Multiple(() =>
+        {
+            Assert.That(dashboardNames, Does.Contain(name!));
+            Assert.That(dashboardDescriptions, Does.Contain(description!));
+        });
 
-        WhenDeleteDashboard(name);
+        WhenDeleteDashboard(name!);
     }
 
     [When(@"I click on edit dashboard")]

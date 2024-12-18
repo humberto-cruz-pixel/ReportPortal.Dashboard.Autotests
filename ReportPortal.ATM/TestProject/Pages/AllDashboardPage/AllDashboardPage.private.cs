@@ -93,5 +93,5 @@ public partial class AllDashboardsPage
     }
 
     private IWebElement GetDashboardByName(string name) =>
-        DashboardNames.FirstOrDefault(x => x.Text.Equals(name, StringComparison.Ordinal));
+        DashboardNames.FirstOrDefault(x => x.Text.Equals(name, StringComparison.Ordinal))!;
 }

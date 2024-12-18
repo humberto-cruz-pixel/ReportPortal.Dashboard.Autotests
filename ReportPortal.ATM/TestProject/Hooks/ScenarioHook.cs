@@ -34,6 +34,8 @@ public sealed class ScenarioHook
 
         _loggerService = _frameworkScope.ServiceProvider.GetRequiredService<ILoggerServiceFactory>()
             .CreateLoggerService(fullFilePath);
+
+        DotNetEnv.Env.Load(Directory.GetCurrentDirectory() + "\\Enviroment.env");
     }
 
     [BeforeScenario]
@@ -51,7 +53,7 @@ public sealed class ScenarioHook
     }
 
     [BeforeStep]
-    public void BeforeStep(ScenarioContext scenarioContext)
+    public static void BeforeStep(ScenarioContext scenarioContext)
     {
         var logger = scenarioContext["loggerService"] as ILoggerService;
         var definitionType = scenarioContext.StepContext.StepInfo.StepDefinitionType;
@@ -61,7 +63,7 @@ public sealed class ScenarioHook
     }
 
     [AfterStep]
-    public void AfterStep(ScenarioContext scenarioContext)
+    public static void AfterStep(ScenarioContext scenarioContext)
     {
         var logger = scenarioContext["loggerService"] as ILoggerService;
 
@@ -76,7 +78,7 @@ public sealed class ScenarioHook
         LogOutcome(logger!, message, status, exception);
     }
 
-    private static void LogOutcome(ILoggerService logger, string message, ScenarioExecutionStatus status, Exception? exception)
+    private static void LogOutcome(ILoggerService logger, string message, ScenarioExecutionStatus status, Exception exception)
     {
         ArgumentNullException.ThrowIfNull(logger);
         ArgumentException.ThrowIfNullOrWhiteSpace(message);

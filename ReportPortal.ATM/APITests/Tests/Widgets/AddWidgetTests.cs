@@ -18,16 +18,23 @@ public class AddWidgetTests : BaseTest
         var widgetId = widgetService.AddWidget(widgetName)
             .GetData().Id;
 
-        var addWidgetResult = dashboardService.AddWidgetAsync(dashboardId, widgetId, "Name");
+        var addWidgetResult = dashboardService.AddWidgetAsync((int)dashboardId!, widgetId, "Name");
 
-        Assert.That(addWidgetResult.StatusCode
-            .Equals(HttpStatusCode.OK), $"Expected succesful status code, but found: {addWidgetResult.StatusCode}");
+        loggerService.LogInformation($"Dashboard: {name} was successfully created");
+        loggerService.LogInformation($"Adding widget: {widgetName} to dashboard: {name}...");
 
-        var Widgets = dashboardService.GetDashboardById(dashboardId.ToString())
-            .GetData().Widgets.Select(x => x.WidgetName).ToList();
+        Assert.That(addWidgetResult.StatusCode,
+            Is.EqualTo(HttpStatusCode.OK), $"Expected succesful status code, but found: {addWidgetResult.StatusCode}");
 
-        Assert.That(Widgets.Contains(widgetName));
+        var Widgets = dashboardService.GetDashboardById(dashboardId.ToString()!)
+                                      .GetData().Widgets!
+                                      .Select(x => x.WidgetName)
+                                      .ToList()!;
 
-        dashboardService.DeleteDashboardAsync(dashboardId.ToString());
+        Assert.That(Widgets, Does.Contain(widgetName));
+
+        loggerService.LogInformation($"Widget: {widgetName} was added to dashboard: {name}");
+
+        dashboardService.DeleteDashboardAsync(dashboardId.ToString()!);
     }
 }
