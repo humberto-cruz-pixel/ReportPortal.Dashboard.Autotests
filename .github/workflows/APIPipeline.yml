@@ -1,35 +1,124 @@
 name: API tests
 
 on:
+  schedule:
+    - cron: '0 12 * * *'
   push:
-    branches: [ '008-CICD-Project' ]
+    branches: [ '009-SonarQube' ]
   pull_request:
-    branches: [ '008-CICD-Project' ]
+    branches: [ '009-SonarQube' ]
 
 jobs:
   build:
     runs-on: self-hosted
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Restore dependencies API Tests
-      run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
-      shell: cmd
-
-    - name: Build API Test project
-      run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
-      shell: cmd
-
+      - name: Restore dependencies API Tests
+        run: dotnet restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
+        shell: cmd
+        
+      - name: Build API Test project
+        run: dotnet build --no-restore "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
+        shell: cmd
+  
   test:
     needs: build
     runs-on: self-hosted
-
     steps:
-    
-    - name: Test API
-      run: dotnet test "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj"
-      shell: cmd
-      env:
-        API_TOKEN: ${{ secrets.API_TOKEN }}
+      - name: Test API
+        run: dotnet test "C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\APITests.csproj" --logger "trx;LogFileName=test-results.trx"
+        shell: cmd
+        env:
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+
+  Publish_Results:
+    needs: test
+    runs-on: self-hosted
+    steps:
+
+      - name: Generate a token
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.CICD_REPORTER_APP_ID }}
+          private-key: ${{ secrets.CICD_REPORTER_APP_KEY }}
+          
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: Test Results
+          path: C:\Windows\System32\actions-runner\_work\ReportPortal.Dashboard.Autotests\ReportPortal.Dashboard.Autotests\ReportPortal.ATM\APITests\TestResults\test-results.trx
+
+      - name: Publish Test Report
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          artifact: 'Test Results'
+          name: 'API Tests'
+          path: '*.trx'
+          reporter: 'dotnet-trx'
+          token: ${{ steps.generate-token.outputs.token }}
+
+  Send_Notification:
+    if: always()
+    needs: [Publish_Results,test] 
+    name: Send Notification
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Determine Job Status
+        id: job_status
+        run: |
+          if [ "${{ needs.test.result }}" == 'success' ]; then
+            echo "::set-output name=status::passed"
+            echo "::set-output name=icon_url::https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Check-Logo.png/640px-Check-Logo.png"  # Green check icon
+          else
+            echo "::set-output name=status::failed"
+            echo "::set-output name=icon_url::https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/X_Icon_or_Close_Icon.svg/640px-X_Icon_or_Close_Icon.svg.png"  # Red cross icon
+          fi
+      - name: Send Results to Microsoft Teams
+        uses: skitionek/notify-microsoft-teams@master
+        with:
+          webhook_url: ${{ secrets.TEAMS_INCOMING_WEBHOOK_URL_1 }}
+          raw: >-
+            {
+                "type": "message",
+                "attachments":
+                [
+                    {
+                        "contentType": "application/vnd.microsoft.card.adaptive",
+                        "content":
+                        {
+                            "type": "AdaptiveCard",
+                            "body":
+                            [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "**GitHub Action Test Results**",
+                                    "weight": "bolder",
+                                    "size": "medium"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Status: ${{ steps.job_status.outputs.status }}"
+                                },
+                                {
+                                    "type": "Image",
+                                    "url": "${{ steps.job_status.outputs.icon_url }}",
+                                    "size": "small"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Last Commit: [View Commit](${{ github.event.head_commit.url }})"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Action Run: [View Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
