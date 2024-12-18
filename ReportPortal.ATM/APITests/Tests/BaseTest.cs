@@ -66,7 +66,7 @@ public class BaseTest
                 break;
 
             case TestStatus.Failed:
-                loggerService.LogError(TestContext.CurrentContext.Result.Outcome.ToString()!);
+                loggerService.LogError(null,TestContext.CurrentContext.Result.Outcome.ToString()!);
                 break;
 
             case TestStatus.Warning:

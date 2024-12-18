@@ -99,7 +99,7 @@ public class RestSahrpClient : IRestClientService
 
     private void ConfigureApiClient()
     {
-        var baseURL = _apiClientConfiguration.BaseURL + "/v1/" + _apiClientConfiguration.ProjectName;
+        var baseURL = _apiClientConfiguration.BaseURL + _apiClientConfiguration.ProjectName;
         _restClientOptions = new RestClientOptions(baseURL);
     }
 }

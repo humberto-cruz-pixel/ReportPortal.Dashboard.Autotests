@@ -14,7 +14,7 @@ public class HttpRestClient(IApiClientConfiguration apiClientConfiguration) : IR
 {
     private readonly HttpClient _httpClient = new();
     private HttpRequestMessage _httpRequest = new();
-    private readonly string _baseUrl = apiClientConfiguration.BaseURL + "/v1/" + apiClientConfiguration.ProjectName;
+    private readonly string _baseUrl = apiClientConfiguration.BaseURL + apiClientConfiguration.ProjectName;
     private readonly string _apiToken = Environment.GetEnvironmentVariable("API_TOKEN")!;
 
     public IRestClientService AddRequestParameters(Dictionary<string, string> parameters)
