@@ -4,9 +4,9 @@ on:
   schedule:
     - cron: '0 12 * * *'
   push:
-    branches: [ '009-SonarQube' ]
+    branches: [ 'main' ]
   pull_request:
-    branches: [ '009-SonarQube' ]
+    branches: [ 'main' ]
 
 jobs:
   build:
