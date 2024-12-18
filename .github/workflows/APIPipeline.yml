@@ -61,6 +61,7 @@ jobs:
           path: '*.trx'
           reporter: 'dotnet-trx'
           token: ${{ steps.generate-token.outputs.token }}
+          fail-on-error: 'false'
 
   Send_Notification:
     if: always()
